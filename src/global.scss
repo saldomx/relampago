@@ -1,0 +1,118 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+@import "./../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+
+.container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.searchbar-input {
+  border-radius: 30px !important;
+  text-align: center !important;
+}
+
+// for profile page alert to delete card start
+.alert-btn {
+  font-size: 12px !important;
+  text-transform: none !important;
+  color: #5a626b !important;
+  height: 25px !important;
+  border: none !important;
+  margin-bottom: 10px !important;
+}
+.alert-wrapper .ion-overlay-wrapper .sc-ion-alert-md {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-content: space-around !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-size: 12px !important;
+  width: 87% !important;
+  border-radius: 10px !important;
+  height: 150px !important;
+}
+// for profile page alert to delete card start
+//for common button start
+.btn-sec {
+  position: relative;
+  text-align: center;
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+}
+
+.resbtn {
+  border-radius: 24px !important;
+  background-color: #4243a8;
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 10px;
+  width: 100%;
+  text-transform: uppercase;
+  color: #fff;
+}
+//for common button end
+
+//overlay after payService success
+
+.success-overlay {
+  .modal-wrapper {
+    position: absolute;
+    width: 100% !important;
+    height: 80% !important;
+    top: 300px;
+    border-radius: 25px;
+  }
+}
+
+//Overlay for card details
+.card-overlay {
+  .modal-wrapper {
+    position: absolute;
+    width: 100% !important;
+    height: 75% !important;
+    border-radius: 25px;
+    bottom: 0;
+  }
+}
+
+.warn-modal {
+  .alert-wrapper {
+    width: 90%;
+    border-radius: 10px;
+  }
+}
+.qr {
+  text-align: center !important;
+}

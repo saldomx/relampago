@@ -1,0 +1,101 @@
+ion-content {
+  --color: #2c2626cc;
+}
+
+.head-title {
+  font-size: 14px;
+  position: absolute;
+  margin-left: 13px;
+  margin-top: 4px;
+}
+.service {
+  font-size: 16px;
+  font-weight: 500;
+  height: 35px;
+  margin-top: 12px;
+}
+
+.c-flag {
+  position: relative;
+  top: 8px;
+}
+.i-select {
+  font-weight: 700;
+  color: #052d5c;
+  font-size: 14px;
+}
+// ion-card-content {
+//   position: relative;
+//   min-height: 180px;
+// }
+ion-card {
+  margin-bottom: 5px;
+}
+
+item-list {
+  position: relative;
+  top: 10px;
+}
+ion-item :hover {
+  background-color: #8080801f;
+}
+ion-item :active {
+  background-color: #8080801f;
+}
+ion-icon {
+  color: #052d5c;
+}
+
+ion-refresher {
+  z-index: 10;
+}
+
+.item-bg {
+  --ion-item-background: #fff;
+  border: 1 px solid;
+}
+ion-segment {
+  margin: 6px;
+  margin-top: 10px;
+  width: 96%;
+  margin-left: 6px;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-around;
+  align-items: center;
+  top: 70px;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.i-btn {
+  padding: 12px;
+  width: 55%;
+  background-color: #4243a8;
+  color: #fff;
+  border-radius: 34px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.amt {
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  bottom: 10px;
+}
+.txns {
+  margin-top: 16px;
+  text-align: left;
+  width: 90%;
+}
+.usd-a {
+  position: absolute;
+  right: 19px;
+}
+p {
+  font-size: 14px;
+}

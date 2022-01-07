@@ -1,0 +1,51 @@
+<!-- <app-header></app-header>
+<ion-content>
+  <div>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Registration</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form #form="ngForm" (ngSubmit)="onSubmit(form)" novalidate>
+          <mat-form-field style="width: 100%;">
+            <mat-label>First Name</mat-label>
+            <input type="text" matInput name="nombre" ngModel required>
+          </mat-form-field>
+          <mat-form-field style="width: 100%;">
+            <mat-label>Last Name</mat-label>
+            <input type="text" matInput name="app" ngModel required>
+          </mat-form-field>
+          <mat-form-field style="width: 100%;">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput name="email" ngModel required>
+          </mat-form-field>
+          <mat-form-field style="width: 100%;">
+            <mat-select name="country" placeholder="Select country" ngModel required>
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let item of contryList" [value]="item">
+                {{item.country}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field style="width: 100%;">
+            <mat-label>Phone</mat-label>
+            <span matPrefix *ngIf="form.value.country">+{{form.value.country.calling_code}} &nbsp;</span>
+            <input type="text" matInput name="phone" maxlength="10" ngModel required>
+          </mat-form-field>
+          <mat-form-field style="width: 100%;">
+            <mat-label>Pin</mat-label>
+            <input type="password" matInput name="nip" maxlength="4" ngModel required>
+          </mat-form-field>
+          <section style="text-align: center;">
+            <button [disabled]="!form.valid" class="resbtn" mat-raised-button>Register</button>
+          </section>
+          <div id="login">
+            <span>Already registered? <span id="l-link" (click)="goToLogin()">Login</span></span>
+          </div>
+
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content> -->

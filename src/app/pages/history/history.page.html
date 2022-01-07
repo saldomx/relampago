@@ -1,0 +1,20 @@
+<app-header></app-header>
+<ion-content>
+  <!-- refresher start -->
+  <ion-refresher slot="fixed" (ionRefresh)="refreshPage($event)" pullMin="100">
+    <ion-refresher-content refreshingSpinner="lines"> </ion-refresher-content>
+  </ion-refresher>
+  <!-- refresher end -->
+  <div class="title">
+    <span>History</span>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let item of withdrawalTransactions">
+      <ion-label>
+        <p>Invoice Payment <span class="usd-a">{{item.amount_out}} USD</span></p>
+        <p style="margin-bottom: 2px">{{item.amount_in}} sats</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<app-footer></app-footer>

@@ -1,0 +1,25 @@
+<!-- Footer without a border -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button (click)="switchTab('home')" layout="icon-top">
+          <ion-icon name="home-sharp"></ion-icon>
+          <span>Home</span>
+        </ion-tab-button>
+        <ion-tab-button layout="icon-top">
+          <ion-icon name="card"></ion-icon>
+          <span>Payments</span>
+        </ion-tab-button>
+        <ion-tab-button layout="icon-top">
+          <ion-icon name="logo-usd"></ion-icon>
+          <span>Send</span>
+        </ion-tab-button>
+        <ion-tab-button (click)="switchTab('profile')" layout="icon-top">
+          <ion-icon name="person"></ion-icon>
+          <span>Profile</span>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

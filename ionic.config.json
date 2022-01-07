@@ -1,0 +1,7 @@
+{
+  "name": "relampago",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

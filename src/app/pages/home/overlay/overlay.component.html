@@ -1,0 +1,56 @@
+<div *ngIf="!showSuccess">
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div *ngIf="!showDetails" style="margin-top: 25px;">
+    <ion-item>
+      <ion-textarea style="font-size: 11px;" rows="4" [(ngModel)]="paymentRequest" name="paymentRequest"
+        placeholder="Enter payment request here..."></ion-textarea>
+    </ion-item>
+    <div>
+      <button class="c-btn" mat-raised-button (click)="clearRequest()">Clear</button>
+      <button class="i-btn" mat-raised-button (click)="decodeRequest()">Decode</button>
+    </div>
+  </div>
+  <div class="desc" *ngIf="showDetails">
+    <div class="row" style="margin: 20px;">
+      <div class="col col-1">amount: <span>{{invoiceResult.satAmount ||
+          12.33}}(sat)</span>
+      </div>
+
+      <div class="col">amount: <span>{{invoiceResult.usdAmount ||
+          23.32}}(usd)</span>
+      </div>
+    </div>
+    <hr style="background-color: gray;">
+    <div class="row" style="margin: 20px; text-align: center;">
+      <div class="col">
+        wallet<br> <span>{{invoiceResult.wallet || 'sdsdsdsdsdsdsdsdsdsds'}}</span>
+      </div>
+    </div>
+    <hr style="background-color: gray;">
+    <div class="row" style="margin: 20px; text-align: center;">
+      <div class="col">
+        memo<br> <span>{{invoiceResult.memo || 'sdsdsdsdsdsdsdsdsds'}}</span>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <button class="i-btn" mat-raised-button (click)="payInvoice()">Pay Invoice</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="showSuccess">
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div class="overlay-main">
+    <div>
+      <img src="assets/images/success-ok.png" height="100" alt="">
+    </div>
+    <div style="text-align: center;">
+      <span class="com-text">Completed</span>
+      <br />
+      <span class="long-text">You transaction has been successful</span>
+    </div>
+  </div>
+</div>

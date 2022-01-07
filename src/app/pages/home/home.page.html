@@ -1,0 +1,26 @@
+<app-header></app-header>
+<ion-content>
+  <!-- refresher start -->
+  <ion-refresher slot="fixed" (ionRefresh)="refreshPage($event)" pullMin="100">
+    <ion-refresher-content refreshingSpinner="lines"> </ion-refresher-content>
+  </ion-refresher>
+  <!-- refresher end -->
+  <div class="detail">
+    <span class="amt">{{userBalance}}</span>
+    <span style="font-size: 14px;">in USD</span>
+    <button class="i-btn" mat-raised-button (click)="showModal()">pay invoice</button>
+    <div class="txns">
+      <span>Last transactions</span>
+      <ion-list>
+        <ion-item *ngFor="let item of withdrawalTransactions">
+          <ion-label>
+            <p>Invoice Payment <span class="usd-a">{{item.amount_out}} USD</span></p>
+            <p style="margin-bottom: 2px">{{item.amount_in}} sats</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <h3 (click)="goToHistory()">see more...</h3>
+    </div>
+  </div>
+</ion-content>
+<app-footer></app-footer>

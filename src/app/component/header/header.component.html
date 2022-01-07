@@ -1,0 +1,10 @@
+<ion-header id="header">
+  <div class="row">
+    <div class="col" id="logo-block">
+      <span>Relampago</span>
+    </div>
+    <div class="col" *ngIf="isSessionActive" id="logout">
+      <ion-icon name="log-out-outline" (click)="logout()"></ion-icon>
+    </div>
+  </div>
+</ion-header>
