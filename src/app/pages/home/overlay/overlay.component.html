@@ -9,7 +9,10 @@
     </ion-item>
     <div>
       <button class="c-btn" mat-raised-button (click)="clearRequest()">Clear</button>
-      <button class="i-btn" mat-raised-button (click)="decodeRequest()">Decode</button>
+      <button class="i-btn" [disabled]="!paymentRequest" mat-raised-button (click)="decodeRequest()">Decode</button>
+    </div>
+    <div class="scan-d">
+      <ion-icon class="scan-i" name="scan-circle-outline" (click)="barcodeScanner()"></ion-icon>
     </div>
   </div>
   <div class="desc" *ngIf="showDetails">
@@ -25,13 +28,13 @@
     <hr style="background-color: gray;">
     <div class="row" style="margin: 20px; text-align: center;">
       <div class="col">
-        wallet<br> <span>{{invoiceResult.wallet || 'sdsdsdsdsdsdsdsdsdsds'}}</span>
+        wallet<br> <span>{{invoiceResult.wallet}}</span>
       </div>
     </div>
     <hr style="background-color: gray;">
     <div class="row" style="margin: 20px; text-align: center;">
       <div class="col">
-        memo<br> <span>{{invoiceResult.memo || 'sdsdsdsdsdsdsdsdsds'}}</span>
+        memo<br> <span>{{invoiceResult.memo}}</span>
       </div>
     </div>
     <div style="text-align: center;">

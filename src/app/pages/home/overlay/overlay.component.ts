@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { environment } from 'src/environments/environment';
+import { ZBarOptions, ZBar } from '@ionic-native/zbar/ngx';
 
 @Component({
   selector: 'app-overlay',
@@ -13,8 +14,18 @@ export class OverlayComponent implements OnInit {
   public invoiceResult: any = {};
   public showDetails: any = false;
   public showSuccess: any = false;
+  public optionZbar: any;
+  public scannedOutput: any;
   public paymentRequest = '';
-  constructor(private utilityService: UtilityService, private restService: RestService, private modalCtrl: ModalController) { }
+  constructor(private utilityService: UtilityService,
+    private restService: RestService,
+    private modalCtrl: ModalController,
+    private zbarPlugin: ZBar) {
+    this.optionZbar = {
+      flash: 'off',
+      drawSight: false
+    };
+  }
 
   ngOnInit() { }
 
@@ -70,5 +81,18 @@ export class OverlayComponent implements OnInit {
   }
   async dismiss() {
     await this.modalCtrl.dismiss();
+  }
+
+  barcodeScanner() {
+    const self = this;
+    self.zbarPlugin.scan(this.optionZbar)
+      .then(respone => {
+        console.log(respone);
+        self.paymentRequest = respone;
+        self.decodeRequest();
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
 }

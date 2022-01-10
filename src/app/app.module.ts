@@ -14,7 +14,8 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpService } from './services/http.service';
 import { OverlayComponent } from './pages/home/overlay/overlay.component';
 import { FormsModule } from '@angular/forms';
-
+// Import barcode scanner module
+import { ZBar } from '@ionic-native/zbar/ngx';
 @NgModule({
   declarations: [AppComponent, OverlayComponent],
   entryComponents: [],
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    ZBar,
     HttpService,
   ],
   bootstrap: [AppComponent],
