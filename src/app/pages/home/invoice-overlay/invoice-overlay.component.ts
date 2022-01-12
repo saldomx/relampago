@@ -7,10 +7,10 @@ import { ZBarOptions, ZBar } from '@ionic-native/zbar/ngx';
 
 @Component({
   selector: 'app-overlay',
-  templateUrl: './overlay.component.html',
-  styleUrls: ['./overlay.component.scss'],
+  templateUrl: './invoice-overlay.component.html',
+  styleUrls: ['./invoice-overlay.component.scss'],
 })
-export class OverlayComponent implements OnInit {
+export class InvoiceOverlayComponent implements OnInit {
   public invoiceResult: any = {};
   public showDetails: any = false;
   public showSuccess: any = false;
