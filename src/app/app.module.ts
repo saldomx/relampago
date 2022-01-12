@@ -12,15 +12,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpService } from './services/http.service';
-import { OverlayComponent } from './pages/home/overlay/overlay.component';
+import { InvoiceOverlayComponent } from './pages/home/invoice-overlay/invoice-overlay.component';
 import { FormsModule } from '@angular/forms';
 // Import barcode scanner module
 import { ZBar } from '@ionic-native/zbar/ngx';
+import { WithdrawalOverlayComponent } from './pages/home/withdrawal-overlay/withdrawal-overlay.component';
+import { NgMaretialModule } from './ng-maretial/ng-maretial.module';
 @NgModule({
-  declarations: [AppComponent, OverlayComponent],
+  declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent],
   entryComponents: [],
   imports: [
     CommonModule,
+    NgMaretialModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
