@@ -1,16 +1,12 @@
 #header {
-  height: 100px;
-  background-color: #fff;
+  height: 75px;
+  background-color: #3056d3;
+  width: 100%;
+  padding: 12px;
 }
-span {
-  color: #4243a8;
-  font-size: 20px;
-  font-weight: bold;
-}
-#logo-block {
-  top: 40px;
-  position: relative;
-  margin-left: 10px;
+
+img {
+  width: 50px;
 }
 #chat-icon {
   float: right;
@@ -25,6 +21,6 @@ span {
   position: relative;
   right: 8px;
   top: 15px;
-  color: #4243a8;
+  color: #fff;
   font-size: 24px;
 }

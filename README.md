@@ -1,4 +1,4 @@
-# relampago app
+# Rayo app
 //TODO  add description
 
 This app has used following techs:
@@ -43,16 +43,16 @@ If you want to release your app in the Google Play Store, you have to sign your 
 
 Let’s generate your private key using the keytool command that comes with the JDK:
 
-     keytool -genkey -v -keystore saldo-mobile-app-release-key -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
+     keytool -genkey -v -keystore rayo-app-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
 
 To sign the unsigned APK, run the jarsigner tool which is also included in the JDK:
 
-     /usr/bin/jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore saldo-mobile-app-release-key.jks app-release-unsigned.apk my-alias
+     /usr/bin/jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore rayo-app-release-key.jks app-release-unsigned.apk my-alias
 
 Run the zip align tool to optimize the APK:
 
-     ~/Library/Android/sdk/build-tools/30.0.3/zipalign -v 4 app-release-unsigned.apk relampago.apk
+     ~/Library/Android/sdk/build-tools/30.0.3/zipalign -v 4 app-release-unsigned.apk rayo.apk
 
 To verify that your apk is signed run apksigner:
 
-     ~/Library/Android/sdk/build-tools/30.0.3/apksigner verify relampago.apk
+     ~/Library/Android/sdk/build-tools/30.0.3/apksigner verify rayo.apk
