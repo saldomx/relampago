@@ -18,8 +18,11 @@ import { FormsModule } from '@angular/forms';
 import { ZBar } from '@ionic-native/zbar/ngx';
 import { WithdrawalOverlayComponent } from './pages/home/withdrawal-overlay/withdrawal-overlay.component';
 import { NgMaretialModule } from './ng-maretial/ng-maretial.module';
+import { NewOfferOverlayComponent } from './pages/offers/new-offer-overlay/new-offer-overlay.component';
+import { TakeOfferOverlayComponent } from './pages/offers/take-offer-overlay/take-offer-overlay.component';
 @NgModule({
-  declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent],
+  declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent, NewOfferOverlayComponent,
+    TakeOfferOverlayComponent],
   entryComponents: [],
   imports: [
     CommonModule,

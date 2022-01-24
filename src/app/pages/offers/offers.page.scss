@@ -1,0 +1,86 @@
+ion-label {
+  color: #3056d3;
+  //#d5d5d561
+}
+mat-cell:first-of-type,
+mat-header-cell:first-of-type,
+mat-footer-cell:first-of-type {
+  padding: 11px !important;
+}
+mat-cell:last-of-type,
+mat-header-cell:last-of-type,
+mat-footer-cell:last-of-type {
+  padding-right: 0px !important;
+}
+
+.mat-header-cell {
+  font-size: 12px;
+  font-weight: 900;
+  position: relative;
+}
+
+.usdc-col {
+  color: #3056d3;
+  font-weight: 600;
+}
+
+.action-col {
+  background-color: #3056d3;
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  margin-right: 3px;
+  margin-bottom: 8px;
+}
+
+.action-col-2 {
+  background-color: #3056d3;
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  margin-right: 3px;
+  margin-bottom: 8px;
+  padding-left: 6px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+mat-row {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+.fee {
+  position: absolute;
+  margin-top: 30px;
+}
+
+.new-o {
+  background-color: #3056d3;
+  color: #fff;
+  padding: 10px;
+}
+.new-d {
+  text-align: right;
+  padding-right: 10px;
+  margin-top: 20px;
+  padding-bottom: 5px;
+}
+
+.taken {
+  background-color: #8080809e;
+  color: #3056d3;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px;
+}
+.mat-elevation-z8 {
+  box-shadow: none;
+}
+
+mat-table {
+  background-color: #8080801f;
+}
+
+.active {
+  background-color: #a9a9a93b;
+}

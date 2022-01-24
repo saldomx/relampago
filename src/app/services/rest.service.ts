@@ -33,7 +33,18 @@ export class RestService {
       .post<any>(payload.url, payload.body, { headers: headerObj })
       .toPromise();
   }
+  async delete(payload) {
+    const item = await this.storage.get('auth');
+    const headerObj = new HttpHeaders({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${item}`,
+    });
 
+    return this.http
+      .delete<any>(payload.url, { headers: headerObj, body: payload.body })
+      .toPromise();
+  }
   async get(payload) {
     const item = await this.storage.get('auth');
     const headerObj = new HttpHeaders({

@@ -1,0 +1,36 @@
+<div *ngIf="!showSuccess">
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div style="margin-top: 65px; padding: 15px;">
+    <form #form="ngForm">
+      <!-- Input with placeholder -->
+      <ion-label color="primary">AMOUNT YOU PAY</ion-label>
+      <ion-input type="number" class="amt" placeholder="0.00" name="amount" ngModel required>
+      </ion-input>
+      <div style="text-align: center;">
+        <span>max: {{offer.amount}},</span> <span>Fee: {{offer.fee}}</span><br />
+        <p>Amount you get: {{form.value.amount}}</p>
+        <div style="margin-top: 10px;">
+          <button type="submit" class="i-btn" [disabled]="false" mat-raised-button
+            (click)="takeOffer(form)">Accept</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div *ngIf="showSuccess">
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div class="overlay-main">
+    <div>
+      <img src="assets/images/success-ok.png" height="100" alt="">
+    </div>
+    <div style="text-align: center;">
+      <span class="com-text">Completed</span>
+      <br />
+      <span class="long-text">You transaction has been successful</span>
+    </div>
+  </div>
+</div>
