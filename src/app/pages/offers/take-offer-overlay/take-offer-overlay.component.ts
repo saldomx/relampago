@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./take-offer-overlay.component.scss'],
 })
 export class TakeOfferOverlayComponent {
-  public offer = {};
+  public offer: any = {};
 
   constructor(private modalCtrl: ModalController, private utilityService: UtilityService,
     private restService: RestService, public navParams: NavParams) { }

@@ -61,7 +61,6 @@ export class OffersPage {
       this.fetchOffers(null);
     } else {
       this.fetchActiveOffers(null);
-      // this.fetchTakenOffers(null);
     }
     this.selectedMode = event.detail.value;
   }
@@ -107,6 +106,7 @@ export class OffersPage {
       if (event) {
         event.target.complete();
       }
+      this.fetchTakenOffers(null);
     } catch (err) {
       self.utilityService.presentToast(
         err.error.error || JSON.stringify(err.error)
@@ -126,7 +126,7 @@ export class OffersPage {
     try {
       self.utilityService.presentLoading();
       const response = await self.restService.get(payload);
-      self.offers = response.offers;
+      self.myOffers = response.takenOffers;
       setTimeout(() => {
         self.utilityService.dismissLoading();
       });
@@ -185,6 +185,27 @@ export class OffersPage {
       const response = await self.restService.delete(payload);
       self.utilityService.presentToast(response.message || 'Offer created successfully');
       self.activeOffers = self.activeOffers.filter(item => item.id !== offer.id);
+      setTimeout(() => {
+        self.utilityService.dismissLoading();
+      });
+    } catch (err) {
+      self.utilityService.presentToast(
+        err.error.error || JSON.stringify(err.error)
+      );
+      self.utilityService.dismissLoading();
+    }
+  }
+  async confirmOffer(element) {
+    const self = this;
+    const payload = {
+      url: `${environment.HOST}/confirm/offer`,
+      body: { id: element.id, amount: element.amount, nickName: element.taker }
+    };
+    try {
+      self.utilityService.presentLoading();
+      const response = await self.restService.post(payload);
+      self.utilityService.presentToast(response.message || 'Offer confirmed successfully');
+      element.status = 'confirmed';
       setTimeout(() => {
         self.utilityService.dismissLoading();
       });

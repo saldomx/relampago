@@ -42,7 +42,7 @@
       <!-- Symbol Column -->
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="action-col" (click)="showTakenOfferModal(element)"> Take Offer
+        <mat-cell *matCellDef="let element" class="action-col" (click)="showTakenOfferModal(element)"> TAKE OFFER
         </mat-cell>
       </ng-container>
 
@@ -58,26 +58,28 @@
       <!-- Position Column -->
       <ng-container matColumnDef="method">
         <mat-header-cell *matHeaderCellDef> Method </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.method}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.Rayo_offer.payment_method}} </mat-cell>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="total">
         <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.total}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
       </ng-container>
 
       <!-- Weight Column -->
       <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.status}}
+        <mat-cell *matCellDef="let element"> {{element.status | uppercase}}
         </mat-cell>
       </ng-container>
 
       <!-- Symbol Column -->
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="action-col-2"> {{element.action}} </mat-cell>
+        <mat-cell [ngStyle]="{display: element && element.status==='confirmed'? 'none':'block'}"
+          *matCellDef="let element" class="action-col-2" (click)="element.status==='taken' && confirmOffer(element)">
+          CONFIRM </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="myOffersColumns"></mat-header-row>

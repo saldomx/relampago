@@ -1,4 +1,4 @@
-<div *ngIf="!showSuccess">
+<div>
   <div class="close">
     <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
   </div>
@@ -17,20 +17,5 @@
         </div>
       </div>
     </form>
-  </div>
-</div>
-<div *ngIf="showSuccess">
-  <div class="close">
-    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
-  </div>
-  <div class="overlay-main">
-    <div>
-      <img src="assets/images/success-ok.png" height="100" alt="">
-    </div>
-    <div style="text-align: center;">
-      <span class="com-text">Completed</span>
-      <br />
-      <span class="long-text">You transaction has been successful</span>
-    </div>
   </div>
 </div>
