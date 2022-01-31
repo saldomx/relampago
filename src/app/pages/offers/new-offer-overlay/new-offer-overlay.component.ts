@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-new-offer-overlay',
@@ -27,16 +26,16 @@ export class NewOfferOverlayComponent implements OnInit {
 
   async createOffer(form: NgForm) {
     const self = this;
-    const payload = {
-      url: `${environment.HOST}/offer`,
-      body: form.value
-    };
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.post(payload);
-      self.utilityService.presentToast(response.message || 'Offer created successfully');
-      setTimeout(() => {
-        self.utilityService.dismissLoading();
+      (await self.restService.createOffer(form.value)).subscribe(async (response) => {
+        self.utilityService.presentToast(response.message);
+        if (!response.error) {
+          await this.modalCtrl.dismiss();
+        }
+        setTimeout(() => {
+          self.utilityService.dismissLoading();
+        });
       });
     } catch (err) {
       self.utilityService.presentToast(

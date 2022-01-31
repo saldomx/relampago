@@ -5,7 +5,6 @@ import { CacheService } from 'src/app/services/cache.service';
 import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -27,21 +26,14 @@ export class LoginPage {
     const self = this;
     self.utilityService.presentLoading();
     try {
-      const bodyObj = form.value;
-      const payload = {
-        body: bodyObj,
-        url: `${environment.HOST}/signin`
-      };
-      const response = await self.restService.post(payload);
-      self.utilityService.dismissLoading();
-      self.storage.set('auth', response.token)
-        .then(() => {
-          self.cacheService.setAuth(true);
-          this.cacheService.publishAuthData({
-            auth: true
-          });
-          self.route.navigateByUrl('/home');
-        });
+      (await self.restService.login(form.value)).subscribe(async (data) => {
+        self.utilityService.dismissLoading();
+        await self.storage.set('auth', data.token);
+        self.cacheService.setAuth(true);
+        this.cacheService.publishAuthData({ auth: true });
+        self.route.navigateByUrl('/home');
+        console.log(data);
+      });
     } catch (err) {
       setTimeout(() => {
         self.utilityService.presentToast(JSON.stringify(err));

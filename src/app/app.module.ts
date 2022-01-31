@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -32,7 +31,7 @@ import { TakeOfferOverlayComponent } from './pages/offers/take-offer-overlay/tak
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     IonicStorageModule.forRoot(),
   ],

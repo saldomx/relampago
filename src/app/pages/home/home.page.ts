@@ -1,10 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
 import { InvoiceOverlayComponent } from './invoice-overlay/invoice-overlay.component';
 import { WithdrawalOverlayComponent } from './withdrawal-overlay/withdrawal-overlay.component';
 
@@ -27,10 +26,6 @@ export class HomePage {
   ) { }
   async ionViewWillEnter() {
     const self = this;
-    const auth = await this.storage.get('auth');
-    if (!auth) {
-      return self.route.navigateByUrl('login');
-    }
     self.fetchUserBal(null);
   }
   refreshPage(event) {
@@ -38,20 +33,18 @@ export class HomePage {
   }
   async fetchUserBal(event) {
     const self = this;
-    const payload = {
-      url: `${environment.HOST}/withdrawal/bal`,
-    };
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.get(payload);
-      self.userBalance = response.userBal;
-      setTimeout(() => {
-        self.utilityService.dismissLoading();
-        self.fetchWithdrawal(null);
+      (await self.restService.getBalance()).subscribe(data => {
+        self.userBalance = data.userBal;
+        setTimeout(() => {
+          self.utilityService.dismissLoading();
+          self.fetchWithdrawal(null);
+        });
+        if (event) {
+          event.target.complete();
+        }
       });
-      if (event) {
-        event.target.complete();
-      }
     } catch (err) {
       self.utilityService.presentToast(
         err.error.error || JSON.stringify(err.error)
@@ -69,19 +62,17 @@ export class HomePage {
 
   async fetchWithdrawal(event) {
     const self = this;
-    const payload = {
-      url: `${environment.HOST}/smx/user/withdrawal/history?limit=2`,
-    };
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.get(payload);
-      self.withdrawalTransactions = response.result;
-      setTimeout(() => {
-        self.utilityService.dismissLoading();
-      });
-      if (event) {
-        event.target.complete();
-      }
+      (await self.restService.fetchHistory(2)).subscribe((data => {
+        self.withdrawalTransactions = data.result;
+        setTimeout(() => {
+          self.utilityService.dismissLoading();
+        });
+        if (event) {
+          event.target.complete();
+        }
+      }));
     } catch (err) {
       self.utilityService.presentToast(
         err.error.error || JSON.stringify(err.error)

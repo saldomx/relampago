@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
@@ -27,6 +28,6 @@ export class StorageService {
     return item;
   }
   public async remove(key: string) {
-     await this._storage?.remove(key);
+    await this._storage?.remove(key);
   }
 }

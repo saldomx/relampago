@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-history',
@@ -25,19 +24,17 @@ export class HistoryPage implements OnInit {
 
   async fetchWithdrawal(event) {
     const self = this;
-    const payload = {
-      url: `${environment.HOST}/smx/user/withdrawal/history`,
-    };
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.get(payload);
-      self.withdrawalTransactions = response.result;
-      setTimeout(() => {
-        self.utilityService.dismissLoading();
+      (await self.restService.fetchHistory(0)).subscribe(response => {
+        self.withdrawalTransactions = response.result;
+        setTimeout(() => {
+          self.utilityService.dismissLoading();
+        });
+        if (event) {
+          event.target.complete();
+        }
       });
-      if (event) {
-        event.target.complete();
-      }
     } catch (err) {
       self.utilityService.presentToast(
         err.error.error || JSON.stringify(err.error)

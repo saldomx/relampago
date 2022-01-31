@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { ModalController, NavParams } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-take-offer-overlay',
@@ -32,16 +31,14 @@ export class TakeOfferOverlayComponent {
     const self = this;
     const offer: any = self.offer;
     offer.takenAmount = form.value.amount;
-    const payload = {
-      url: `${environment.HOST}/take/offer`,
-      body: offer
-    };
+
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.post(payload);
-      self.utilityService.presentToast(response.message || 'Offer created successfully');
-      setTimeout(() => {
-        self.utilityService.dismissLoading();
+      (await self.restService.takeOffer(offer)).subscribe(response => {
+        self.utilityService.presentToast(response.message);
+        setTimeout(() => {
+          self.utilityService.dismissLoading();
+        });
       });
     } catch (err) {
       self.utilityService.presentToast(

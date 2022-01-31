@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { CacheService } from 'src/app/services/cache.service';
-import { CardService } from 'src/app/services/card.service';
 import { HttpService } from 'src/app/services/http.service';
 import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -26,7 +25,6 @@ export class ProfilePage {
     private storage: StorageService,
     private alertController: AlertController,
     private modalCtrl: ModalController,
-    private cardService: CardService,
     private http: HttpService
   ) { }
 
@@ -38,57 +36,57 @@ export class ProfilePage {
     // this.getUserInfo(event);
   }
 
-  async getUserInfo(event) {
-    const self = this;
-    try {
-      self.cardService
-        .getUserInfo()
-        .then((userInfo) => {
-          self.userDetail = userInfo;
-          const reqObj = {
-            uri: '/account',
-            params: {
-              email: this.userDetail.email,
-            },
-          };
-          self.utilityService.presentLoading();
-          self.http.get(reqObj).subscribe(
-            (result) => {
-              this.utilityService
-                .dismissLoading()
-                .then(
-                  () =>
-                    (self.usdcBanalce = Number(result.tokenAmount).toFixed(2))
-                );
-            },
-            (error) => {
-              self.utilityService
-                .dismissLoading()
-                .then(() =>
-                  self.utilityService.presentToast(error.error || error)
-                );
-            }
-          );
-        })
-        .catch((err) => {
-          self.utilityService
-            .dismissLoading()
-            .then(() => self.utilityService.presentToast(err.error || err));
-        });
-      if (event) {
-        event.target.complete();
-      }
-    } catch (err) {
-      if (event) {
-        event.target.complete();
-      }
-      self.utilityService.presentToast(err.error.error || JSON.stringify(err));
-      if (err && err.status === 401) {
-        self.storage.remove('auth');
-        self.route.navigateByUrl('login');
-      }
-    }
-  }
+  // async getUserInfo(event) {
+  //   const self = this;
+  //   try {
+  //     self.cardService
+  //       .getUserInfo()
+  //       .then((userInfo) => {
+  //         self.userDetail = userInfo;
+  //         const reqObj = {
+  //           uri: '/account',
+  //           params: {
+  //             email: this.userDetail.email,
+  //           },
+  //         };
+  //         self.utilityService.presentLoading();
+  //         self.http.get(reqObj).subscribe(
+  //           (result) => {
+  //             this.utilityService
+  //               .dismissLoading()
+  //               .then(
+  //                 () =>
+  //                   (self.usdcBanalce = Number(result.tokenAmount).toFixed(2))
+  //               );
+  //           },
+  //           (error) => {
+  //             self.utilityService
+  //               .dismissLoading()
+  //               .then(() =>
+  //                 self.utilityService.presentToast(error.error || error)
+  //               );
+  //           }
+  //         );
+  //       })
+  //       .catch((err) => {
+  //         self.utilityService
+  //           .dismissLoading()
+  //           .then(() => self.utilityService.presentToast(err.error || err));
+  //       });
+  //     if (event) {
+  //       event.target.complete();
+  //     }
+  //   } catch (err) {
+  //     if (event) {
+  //       event.target.complete();
+  //     }
+  //     self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+  //     if (err && err.status === 401) {
+  //       self.storage.remove('auth');
+  //       self.route.navigateByUrl('login');
+  //     }
+  //   }
+  // }
   gotToAddCard() {
     this.route.navigateByUrl('add-card');
   }
@@ -119,7 +117,7 @@ export class ProfilePage {
                 body: bodyObj,
                 url: `${environment.HOST}/api/ripplev4/removeCardVault`,
               };
-              const response = await self.restService.post(payload);
+              // const response = await self.restService.post(payload);
               self.utilityService.dismissLoading().then(() => {
                 self.userDetail.numCardList =
                   self.userDetail.numCardList.filter(
