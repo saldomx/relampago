@@ -14,9 +14,19 @@
       <span>Last transactions</span>
       <ion-list>
         <ion-item *ngFor="let item of withdrawalTransactions">
-          <ion-label>
+          <ion-label *ngIf="item.status!=='taken'">
             <p>Invoice Payment <span class="usd-a">{{item.amount_out}} USD</span></p>
             <p style="margin-bottom: 2px">{{item.amount_in}} sats</p>
+          </ion-label>
+          <ion-label (click)="showStatusModal(item)" *ngIf="item.status==='taken'">
+            <p>Offer Taken <span class="usd-a">{{item.amount}} USD
+                <div class="alrt"
+                  *ngIf="(!item.taker_confirmed && !item.isOwner) || (!item.creator_confirmed && item.isOwner)">!</div>
+                <ion-icon name="checkmark-sharp" class="check"
+                  *ngIf="(item.taker_confirmed && !item.isOwner) || (item.creator_confirmed && item.isOwner)">
+                </ion-icon>
+              </span>
+            </p>
           </ion-label>
         </ion-item>
       </ion-list>

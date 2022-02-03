@@ -1,0 +1,18 @@
+<div>
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div class="inf">
+    <p>
+      Have you made the payment?
+    </p>
+    <p>
+      ({{offer.amount}} USD via {{offer['Rayo_offer.payment_method']}})
+    </p>
+    <div>
+      <button class="i-btn" [disabled]="offer.taker_confirmed? true: false" mat-raised-button
+        (click)="confirmPayment()">
+        YES, I MADE THE PAYMENT</button>
+    </div>
+  </div>
+</div>

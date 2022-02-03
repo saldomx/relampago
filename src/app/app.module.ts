@@ -19,9 +19,10 @@ import { WithdrawalOverlayComponent } from './pages/home/withdrawal-overlay/with
 import { NgMaretialModule } from './ng-maretial/ng-maretial.module';
 import { NewOfferOverlayComponent } from './pages/offers/new-offer-overlay/new-offer-overlay.component';
 import { TakeOfferOverlayComponent } from './pages/offers/take-offer-overlay/take-offer-overlay.component';
+import { StatusOverlayComponent } from './pages/home/status-overlay/status-overlay.component';
 @NgModule({
   declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent, NewOfferOverlayComponent,
-    TakeOfferOverlayComponent],
+    TakeOfferOverlayComponent, StatusOverlayComponent],
   entryComponents: [],
   imports: [
     CommonModule,

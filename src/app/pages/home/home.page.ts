@@ -5,6 +5,7 @@ import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { InvoiceOverlayComponent } from './invoice-overlay/invoice-overlay.component';
+import { StatusOverlayComponent } from './status-overlay/status-overlay.component';
 import { WithdrawalOverlayComponent } from './withdrawal-overlay/withdrawal-overlay.component';
 
 
@@ -112,5 +113,18 @@ export class HomePage {
 
   goToHistory() {
     this.router.navigate(['history']);
+  }
+  async showStatusModal(item) {
+    const modal = await this.modalCtrl.create({
+      component: StatusOverlayComponent,
+      backdropDismiss: true,
+      cssClass: 'card-overlay',
+      swipeToClose: true,
+      showBackdrop: true,
+      keyboardClose: true,
+      componentProps: { offer: item }
+    });
+
+    return await modal.present();
   }
 }

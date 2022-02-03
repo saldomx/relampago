@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+/* eslint-disable @angular-eslint/directive-selector */
+import { Component, Directive, Input, OnInit } from '@angular/core';
+import { AbstractControl, NgForm, NG_VALIDATORS, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { ModalController, NavParams } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
@@ -34,8 +35,11 @@ export class TakeOfferOverlayComponent {
 
     try {
       self.utilityService.presentLoading();
-      (await self.restService.takeOffer(offer)).subscribe(response => {
+      (await self.restService.takeOffer(offer)).subscribe(async (response) => {
         self.utilityService.presentToast(response.message);
+        if (!response.error) {
+          await this.modalCtrl.dismiss();
+        }
         setTimeout(() => {
           self.utilityService.dismissLoading();
         });
@@ -46,5 +50,21 @@ export class TakeOfferOverlayComponent {
       );
       self.utilityService.dismissLoading();
     }
+  }
+  onKeydownEvent(event, form: NgForm) {
+    console.log(event);
+  }
+}
+
+@Directive({
+  selector: '[max]',
+  providers: [{ provide: NG_VALIDATORS, useExisting: MinDirective, multi: true }]
+})
+export class MinDirective implements Validator {
+
+  @Input() max: number;
+
+  validate(control: AbstractControl): { [key: string]: any } {
+    return Validators.max(this.max)(control);
   }
 }

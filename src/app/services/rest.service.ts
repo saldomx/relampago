@@ -71,6 +71,22 @@ export class RestService {
     };
     return self.http.get(reqPayload);
   }
+  getTakenOffer(offerId): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      url: `${environment.HOST}/taken/offer`,
+      params: { id: offerId }
+    };
+    return self.http.get(reqPayload);
+  }
+  updateStatus(offerId): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      url: `${environment.HOST}/status/offer`,
+      body: { id: offerId }
+    };
+    return self.http.post(reqPayload);
+  }
 
   cancelOffer(offer): Promise<Observable<any>> {
     const self = this;

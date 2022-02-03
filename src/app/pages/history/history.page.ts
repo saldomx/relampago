@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
+import { StatusOverlayComponent } from '../home/status-overlay/status-overlay.component';
 
 @Component({
   selector: 'app-history',
@@ -10,7 +12,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class HistoryPage implements OnInit {
 
   public withdrawalTransactions = [];
-  constructor(private utilityService: UtilityService, private restService: RestService) { }
+  constructor(private utilityService: UtilityService, private restService: RestService,
+    private modalCtrl: ModalController) { }
 
   ngOnInit() {
   }
@@ -46,4 +49,17 @@ export class HistoryPage implements OnInit {
     }
   }
 
+  async showStatusModal(item) {
+    const modal = await this.modalCtrl.create({
+      component: StatusOverlayComponent,
+      backdropDismiss: true,
+      cssClass: 'card-overlay',
+      swipeToClose: true,
+      showBackdrop: true,
+      keyboardClose: true,
+      componentProps: { offer: item }
+    });
+
+    return await modal.present();
+  }
 }

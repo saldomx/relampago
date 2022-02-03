@@ -6,7 +6,9 @@
     <form #form="ngForm">
       <!-- Input with placeholder -->
       <ion-label color="primary">AMOUNT YOU PAY</ion-label>
-      <ion-input type="number" class="amt" placeholder="0.00" name="amount" ngModel required>
+      <ion-input type="number" class="amt" [max]="12" (keydown)="onKeydownEvent($event, form)" placeholder="0.00"
+        name="amount" ngModel
+        [ngClass]="{'is-invalid':form && form.value && form.value.amount && form.value.amount.invalid}" required>
       </ion-input>
       <div style="text-align: center;">
         <span>max: {{offer.amount}},</span> <span>Fee: {{offer.fee}}</span><br />
