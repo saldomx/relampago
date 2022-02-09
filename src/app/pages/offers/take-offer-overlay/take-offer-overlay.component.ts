@@ -12,6 +12,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class TakeOfferOverlayComponent {
   public offer: any = {};
+  public validAmount = true;
+  public getAmount = '0.00';
 
   constructor(private modalCtrl: ModalController, private utilityService: UtilityService,
     private restService: RestService, public navParams: NavParams) { }
@@ -30,6 +32,10 @@ export class TakeOfferOverlayComponent {
 
   async takeOffer(form: NgForm) {
     const self = this;
+    if (form.value.amount > (Number(self.offer.amount) + Number(self.offer.fee))) {
+      self.utilityService.presentToast('Invalid amount input, please put amount less that offer amount - fee');
+      return false;
+    }
     const offer: any = self.offer;
     offer.takenAmount = form.value.amount;
 
@@ -51,20 +57,16 @@ export class TakeOfferOverlayComponent {
       self.utilityService.dismissLoading();
     }
   }
-  onKeydownEvent(event, form: NgForm) {
-    console.log(event);
+  onKeydownEvent(form: NgForm) {
+    const self = this;
+    if (form.value.amount > (Number(self.offer.amount) - Number(self.offer.fee))) {
+      self.validAmount = false;
+      self.getAmount = 'Invalid amount';
+    } else {
+      self.getAmount = String(form.value.amount || '0.00');
+      self.validAmount = true;
+    }
   }
+
 }
 
-@Directive({
-  selector: '[max]',
-  providers: [{ provide: NG_VALIDATORS, useExisting: MinDirective, multi: true }]
-})
-export class MinDirective implements Validator {
-
-  @Input() max: number;
-
-  validate(control: AbstractControl): { [key: string]: any } {
-    return Validators.max(this.max)(control);
-  }
-}

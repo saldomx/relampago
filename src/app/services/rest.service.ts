@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpService } from './http.service';
-import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +32,7 @@ export class RestService {
   takeOffer(offer): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {
-      url: `${environment.HOST}/take/offer`,
+      url: `${environment.HOST}/offer/take`,
       body: offer
     };
     return self.http.post(reqPayload);
@@ -59,7 +58,7 @@ export class RestService {
   listActiveOffer(): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {
-      url: `${environment.HOST}/active/offers`,
+      url: `${environment.HOST}/offers/active`,
     };
     return self.http.get(reqPayload);
   }
@@ -67,14 +66,14 @@ export class RestService {
   listTakenOffer(): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {
-      url: `${environment.HOST}/taken/offers`,
+      url: `${environment.HOST}/offers/taken`,
     };
     return self.http.get(reqPayload);
   }
   getTakenOffer(offerId): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {
-      url: `${environment.HOST}/taken/offer`,
+      url: `${environment.HOST}/offer/taken`,
       params: { id: offerId }
     };
     return self.http.get(reqPayload);
@@ -82,7 +81,7 @@ export class RestService {
   updateStatus(offerId): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {
-      url: `${environment.HOST}/status/offer`,
+      url: `${environment.HOST}/offer/status`,
       body: { id: offerId }
     };
     return self.http.post(reqPayload);
@@ -91,7 +90,7 @@ export class RestService {
   cancelOffer(offer): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {
-      url: `${environment.HOST}/cancel/offer`,
+      url: `${environment.HOST}/offer/cancel`,
       body: offer
     };
     return self.http.post(reqPayload);
@@ -100,7 +99,7 @@ export class RestService {
   confirmOffer(offer): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {
-      url: `${environment.HOST}/confirm/offer`,
+      url: `${environment.HOST}/offer/confirm`,
       body: offer
     };
     return self.http.post(reqPayload);
@@ -149,5 +148,21 @@ export class RestService {
       reqPayload.url = `${reqPayload.url}?limit=${limit}`;
     }
     return self.http.get(reqPayload);
+  }
+  refreshMessage(offerId): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      url: `${environment.HOST}/offer/messages`,
+      params: { id: offerId }
+    };
+    return self.http.get(reqPayload);
+  }
+  addMessage(messageObj): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      url: `${environment.HOST}/offer/message`,
+      body: messageObj
+    };
+    return self.http.post(reqPayload);
   }
 }

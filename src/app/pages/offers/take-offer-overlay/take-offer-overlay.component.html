@@ -6,16 +6,15 @@
     <form #form="ngForm">
       <!-- Input with placeholder -->
       <ion-label color="primary">AMOUNT YOU PAY</ion-label>
-      <ion-input type="number" class="amt" [max]="12" (keydown)="onKeydownEvent($event, form)" placeholder="0.00"
-        name="amount" ngModel
-        [ngClass]="{'is-invalid':form && form.value && form.value.amount && form.value.amount.invalid}" required>
+      <ion-input type="number" class="amt" (keyup)="onKeydownEvent(form)" placeholder="0.00" name="amount" ngModel
+        required>
       </ion-input>
       <div style="text-align: center;">
         <span>max: {{offer.amount}},</span> <span>Fee: {{offer.fee}}</span><br />
-        <p>Amount you get: {{form.value.amount}}</p>
+        <p>Amount you get: {{getAmount}}</p>
         <div style="margin-top: 10px;">
-          <button type="submit" class="i-btn" [disabled]="false" mat-raised-button
-            (click)="takeOffer(form)">Accept</button>
+          <button type="submit" class="i-btn" [disabled]="!validAmount" mat-raised-button (click)="takeOffer(form)">Take
+            Offer</button>
         </div>
       </div>
     </form>
