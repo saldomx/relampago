@@ -1,157 +1,118 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertController, ModalController } from '@ionic/angular';
-import { CacheService } from 'src/app/services/cache.service';
-import { HttpService } from 'src/app/services/http.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfilePage {
   public userDetail: any = {};
-  public usdcBanalce = '0.00';
+  public isChecked = false;
 
   constructor(
     private utilityService: UtilityService,
     private restService: RestService,
-    private route: Router,
-    private cacheService: CacheService,
     private storage: StorageService,
-    private alertController: AlertController,
-    private modalCtrl: ModalController,
-    private http: HttpService
+    private cdRef: ChangeDetectorRef,
+    private faio: FingerprintAIO
   ) { }
 
   ionViewWillEnter() {
-    // this.getUserInfo(null);
+    this.getUserInfo(null);
   }
 
-  getServiceList(event) {
-    // this.getUserInfo(event);
-  }
-
-  // async getUserInfo(event) {
-  //   const self = this;
-  //   try {
-  //     self.cardService
-  //       .getUserInfo()
-  //       .then((userInfo) => {
-  //         self.userDetail = userInfo;
-  //         const reqObj = {
-  //           uri: '/account',
-  //           params: {
-  //             email: this.userDetail.email,
-  //           },
-  //         };
-  //         self.utilityService.presentLoading();
-  //         self.http.get(reqObj).subscribe(
-  //           (result) => {
-  //             this.utilityService
-  //               .dismissLoading()
-  //               .then(
-  //                 () =>
-  //                   (self.usdcBanalce = Number(result.tokenAmount).toFixed(2))
-  //               );
-  //           },
-  //           (error) => {
-  //             self.utilityService
-  //               .dismissLoading()
-  //               .then(() =>
-  //                 self.utilityService.presentToast(error.error || error)
-  //               );
-  //           }
-  //         );
-  //       })
-  //       .catch((err) => {
-  //         self.utilityService
-  //           .dismissLoading()
-  //           .then(() => self.utilityService.presentToast(err.error || err));
-  //       });
-  //     if (event) {
-  //       event.target.complete();
-  //     }
-  //   } catch (err) {
-  //     if (event) {
-  //       event.target.complete();
-  //     }
-  //     self.utilityService.presentToast(err.error.error || JSON.stringify(err));
-  //     if (err && err.status === 401) {
-  //       self.storage.remove('auth');
-  //       self.route.navigateByUrl('login');
-  //     }
-  //   }
-  // }
-  gotToAddCard() {
-    this.route.navigateByUrl('add-card');
-  }
-
-  async deleteCard(card) {
+  async getUserInfo(event) {
     const self = this;
-    const alert = await this.alertController.create({
-      cssClass: 'warn-modal',
-      header: 'Alert',
-      message: `Do you want to delete card ${card.last} ?`,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'alert-btn',
-          handler: (blah) => {
-            console.log('Confirm Cancel: blah');
-          },
-        },
-        {
-          text: 'Confirm',
-          cssClass: 'alert-btn',
-          handler: async () => {
-            self.utilityService.presentLoading();
-            try {
-              const bodyObj = { token: card.token };
-              const payload = {
-                body: bodyObj,
-                url: `${environment.HOST}/api/ripplev4/removeCardVault`,
-              };
-              // const response = await self.restService.post(payload);
-              self.utilityService.dismissLoading().then(() => {
-                self.userDetail.numCardList =
-                  self.userDetail.numCardList.filter(
-                    (prop) => prop.token !== card.token
-                  );
-                self.utilityService.presentToast('Card removed successfully');
-              });
-            } catch (err) {
-              setTimeout(() => {
-                self.utilityService.presentToast(JSON.stringify(err));
-                self.utilityService.dismissLoading();
-              });
-            }
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-  async openCardModal() {
-    // const self = this;
-    // const modal = await self.modalCtrl.create({
-    //   component: CardOverlayComponent,
-    //   backdropDismiss: true,
-    //   cssClass: 'card-overlay',
-    //   swipeToClose: true,
-    //   showBackdrop: true,
-    //   keyboardClose: true,
-    // });
-    // return await modal.present();
+    self.utilityService.presentLoading();
+    try {
+      (await self.restService.userInfo()).subscribe((response => {
+        self.userDetail = response;
+        self.isChecked = response.bio_enabled ? true : false;
+        self.cdRef.detectChanges();
+        self.utilityService.dismissLoading();
+        if (event) {
+          event.target.complete();
+        }
+      }));
+    } catch (err) {
+      if (event) {
+        event.target.complete();
+      }
+      self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+      self.utilityService.dismissLoading();
+    }
   }
 
-  gotToAccountPage() {
-    this.route.navigateByUrl('account');
+  async toggleChange(event) {
+    const self = this;
+    self.isChecked = !self.isChecked;
+    if (!self.isChecked && self.userDetail.bio_enabled) {
+      return false;
+    }
+    try {
+      if (self.isChecked) {
+        await self.showFingerprintAuthDlg(self.isChecked);
+      } else {
+        await self.updateBioValue(self.isChecked);
+      }
+    } catch (error) {
+      self.isChecked = !self.isChecked;
+      self.changeToggleState();
+      self.utilityService.presentToast(error.message || error.error || JSON.stringify(error));
+    }
+  }
+
+  async updateBioValue(value) {
+    const self = this;
+    const reqPayload = {
+      bioValue: value
+    };
+    self.utilityService.presentLoading();
+    try {
+      (await self.restService.bioUpdate(reqPayload)).subscribe((response => {
+        self.utilityService.presentToast(response.message || JSON.stringify(response));
+        self.utilityService.dismissLoading();
+      }));
+    } catch (err) {
+      self.changeToggleState();
+      self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+      self.utilityService.dismissLoading();
+    }
+  }
+
+  public async showFingerprintAuthDlg(checked) {
+    const self = this;
+    self.faio.isAvailable()
+      .then((result: any) => {
+        self.faio.show({
+          cancelButtonTitle: 'Cancel',
+          disableBackup: false,
+          title: 'Rayo Biometric',
+          fallbackButtonTitle: 'FB Back Button'
+        }).then(async (showResult: any) => {
+          (await self.restService.getPublicKey())
+            .subscribe(async (data) => {
+              self.storage.set('x-client-token', data.publicKey);
+              self.updateBioValue(checked);
+            });
+        }).catch((error: any) => {
+          self.changeToggleState();
+          self.utilityService.presentToast('Match not found');
+        });
+      }).catch(err => {
+        self.changeToggleState();
+        self.utilityService.presentToast('Biometric not available');
+      });
+  }
+  changeToggleState() {
+    setTimeout(() => {
+      this.isChecked = !this.isChecked;
+      this.cdRef.detectChanges();
+    }, 100);
   }
 }

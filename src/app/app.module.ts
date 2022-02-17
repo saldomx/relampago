@@ -20,6 +20,7 @@ import { NgMaretialModule } from './ng-maretial/ng-maretial.module';
 import { NewOfferOverlayComponent } from './pages/offers/new-offer-overlay/new-offer-overlay.component';
 import { TakeOfferOverlayComponent } from './pages/offers/take-offer-overlay/take-offer-overlay.component';
 import { StatusOverlayComponent } from './pages/home/status-overlay/status-overlay.component';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 @NgModule({
   declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent, NewOfferOverlayComponent,
     TakeOfferOverlayComponent, StatusOverlayComponent],
@@ -38,6 +39,7 @@ import { StatusOverlayComponent } from './pages/home/status-overlay/status-overl
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FingerprintAIO,
     ZBar,
     HttpService,
   ],

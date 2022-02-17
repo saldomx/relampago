@@ -5,6 +5,9 @@
     <div id="logo-c">
       <img src="assets/images/rayo_logo.png" class="logo-c" alt="saldo logo">
     </div>
+    <div>
+      <ion-icon class="fing" name="finger-print" (click)="showFingerprintAuthDlg()"></ion-icon>
+    </div>
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" novalidate>
       <mat-form-field style="width: 100%;">
         <mat-label>Email</mat-label>

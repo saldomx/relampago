@@ -165,4 +165,37 @@ export class RestService {
     };
     return self.http.post(reqPayload);
   }
+
+  getPublicKey(): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      url: `${environment.HOST}/user/public/key`
+    };
+    return self.http.get(reqPayload);
+  }
+
+  userInfo(): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      url: `${environment.HOST}/user/profile`,
+    };
+    return self.http.get(reqPayload);
+  }
+
+  bioUpdate(authObj): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      url: `${environment.HOST}/user/bio`,
+      body: authObj
+    };
+    return self.http.post(reqPayload);
+  }
+  biometricLogin(payload): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      body: payload,
+      url: `${environment.HOST}/bio/signin`
+    };
+    return self.http.post(reqPayload);
+  }
 }
