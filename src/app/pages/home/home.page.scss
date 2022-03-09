@@ -103,8 +103,26 @@ ion-segment {
 }
 .usd-a {
   position: absolute;
-  right: 19px;
+  right: 25px;
 }
 p {
   font-size: 14px;
+}
+
+.alrt {
+  float: right;
+  background-color: #ef1f1fed;
+  width: 18px;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  height: 19px;
+  margin-left: 2px;
+}
+
+.check {
+  font-size: 21px;
+  position: absolute;
+  color: green;
+  top: -2px;
 }

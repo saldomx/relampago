@@ -1,0 +1,123 @@
+<app-header></app-header>
+<ion-content>
+  <!-- refresher start -->
+  <ion-refresher slot="fixed" (ionRefresh)="refreshPage($event)" pullMin="100">
+    <ion-refresher-content refreshingSpinner="lines"> </ion-refresher-content>
+  </ion-refresher>
+  <!-- refresher end -->
+  <div class="new-d">
+    <span class="new-o" (click)="showNewOfferModal()">New Offer</span>
+  </div>
+  <!-- Segment with secondary color -->
+  <ion-segment style="margin-top: 15px;" (ionChange)="segmentChanged($event)" color="secondary" [value]="selectedMode">
+    <ion-segment-button value="offers" [ngClass]="{'active': selectedMode==='offers'}">
+      <ion-label>Offers</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="myoffers" [ngClass]="{'active': selectedMode==='myoffers'}">
+      <ion-label>My Offers</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div *ngIf="selectedMode==='offers'">
+    <mat-table [dataSource]="offers" class="mat-elevation-z8">
+      <!-- Position Column -->
+      <ng-container matColumnDef="user">
+        <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.nick_name}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="method">
+        <mat-header-cell *matHeaderCellDef> Method </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.payment_method}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="usdc">
+        <mat-header-cell *matHeaderCellDef> USDC Available </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="usdc-col"> {{element.amount}}<br />
+          <small class="fee">{{element.fee}} FEE</small>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="action-col" (click)="showTakenOfferModal(element)"> TAKE OFFER
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="offersColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: offersColumns;"></mat-row>
+    </mat-table>
+  </div>
+  <div *ngIf="selectedMode==='myoffers'">
+    <div class="taken">
+      <span>Taken Offer</span>
+    </div>
+    <mat-table [dataSource]="myOffers" class="mat-elevation-z8">
+      <!-- Position Column -->
+      <ng-container matColumnDef="method">
+        <mat-header-cell *matHeaderCellDef> Method </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Rayo_offer.payment_method}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="total">
+        <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.status | uppercase}}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell [ngStyle]="{display: element && element.status==='confirmed'? 'none':'block'}"
+          *matCellDef="let element" class="action-col-2" (click)="element.status==='taken' && confirmOffer(element)">
+          CONFIRM </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="myOffersColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: myOffersColumns;"></mat-row>
+    </mat-table>
+
+    <div class="taken">
+      <span>Active Offer</span>
+    </div>
+    <mat-table [dataSource]="activeOffers" class="mat-elevation-z8">
+      <!-- Position Column -->
+      <ng-container matColumnDef="method">
+        <mat-header-cell *matHeaderCellDef> Method </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.payment_method}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="fee">
+        <mat-header-cell *matHeaderCellDef> Fee </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.fee}}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="action-col-2" (click)="cancelOffer(element)"> CANCEL </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="activeOffersColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: activeOffersColumns;"></mat-row>
+    </mat-table>
+  </div>
+</ion-content>
+<app-footer></app-footer>

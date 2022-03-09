@@ -5,7 +5,13 @@
   font-size: 18px;
   font-weight: 500;
 }
-
+.container {
+  min-height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
 .card-left {
   height: auto;
   width: 20%;
@@ -44,61 +50,16 @@ hr {
   top: 5px;
   position: relative;
 }
+.bio {
+  position: absolute;
+  top: 9px;
+  right: 0;
+  width: 100%;
+}
 
-// #bal {
-//   text-align: right;
-//   font-size: 10px;
-//   font-weight: 700;
-// }
-// #card-title {
-//   text-align: right;
-//   font-size: 10px;
-//   font-weight: 700;
-// }
-// .head-div {
-//   width: 90%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   position: relative;
-//   margin-top: 20px;
-//   margin-bottom: 12px;
-// }
-
-// .basic {
-//   margin: 20px auto;
-//   text-align: center;
-// }
-// #name {
-//   font-size: 12px;
-//   font-weight: 500;
-// }
-// #email {
-//   font-size: 12px;
-//   font-weight: 500;
-// }
-
-// .p-con {
-//   min-height: 100% !important;
-//   display: flex !important;
-//   flex-direction: column !important;
-//   align-items: center !important;
-//   justify-content: start !important;
-// }
-
-// hr {
-//   border: 2px solid #e0e0e0;
-//   width: 100%;
-//   height: 0px;
-// }
-
-// .add-b {
-//   background-color: #8080804a;
-//   top: 10px;
-//   position: relative;
-//   padding: 8px;
-//   border-radius: 26px;
-//   color: #00000094;
-//   font-size: 12px;
-//   font-weight: 700;
-// }
+.bio ion-label {
+  float: left;
+}
+.bio ion-toggle {
+  margin-top: -8px;
+}

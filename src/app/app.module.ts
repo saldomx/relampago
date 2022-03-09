@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -18,8 +17,13 @@ import { FormsModule } from '@angular/forms';
 import { ZBar } from '@ionic-native/zbar/ngx';
 import { WithdrawalOverlayComponent } from './pages/home/withdrawal-overlay/withdrawal-overlay.component';
 import { NgMaretialModule } from './ng-maretial/ng-maretial.module';
+import { NewOfferOverlayComponent } from './pages/offers/new-offer-overlay/new-offer-overlay.component';
+import { TakeOfferOverlayComponent } from './pages/offers/take-offer-overlay/take-offer-overlay.component';
+import { StatusOverlayComponent } from './pages/home/status-overlay/status-overlay.component';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 @NgModule({
-  declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent],
+  declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent, NewOfferOverlayComponent,
+    TakeOfferOverlayComponent, StatusOverlayComponent],
   entryComponents: [],
   imports: [
     CommonModule,
@@ -29,12 +33,13 @@ import { NgMaretialModule } from './ng-maretial/ng-maretial.module';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     IonicStorageModule.forRoot(),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FingerprintAIO,
     ZBar,
     HttpService,
   ],
