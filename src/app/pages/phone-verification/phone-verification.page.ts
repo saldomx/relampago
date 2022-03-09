@@ -18,9 +18,9 @@ export class PhoneVerificationPage {
     private storage: StorageService,
     private restService: RestService,
     private route: Router
-  ) {}
+  ) { }
 
-  ionViewWillEnter() {}
+  ionViewWillEnter() { }
 
   onOtpChange(event) {
     this.code = event;
@@ -46,7 +46,7 @@ export class PhoneVerificationPage {
         body: bodyObj,
         url: `${environment.HOST}/api/login/confirmPhone`,
       };
-      const response = await self.restService.post(payload);
+      // const response = await self.restService.post(payload);
       self.utilityService.dismissLoading();
       self.utilityService.presentToast(
         'Phone verified successfully, please login'

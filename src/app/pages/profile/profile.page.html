@@ -1,5 +1,24 @@
 <app-header></app-header>
 <!-- linear-gradient(to bottom,  #9c9e9f 0%,#f6f6f6 100%) -->
 <ion-content>
+  <div class="container p-con">
+    <!-- refresher start -->
+    <ion-refresher slot="fixed" (ionRefresh)="getUserInfo($event)" pullMin="100">
+      <ion-refresher-content refreshingSpinner="lines">
+      </ion-refresher-content>
+    </ion-refresher>
+    <!-- refresher end -->
+    <div class="bio">
+      <ion-label>Finger Print / Face ID</ion-label>
+      <ion-toggle [checked]="isChecked" (ionChange)="toggleChange($event)"></ion-toggle>
+    </div>
+    <hr>
+
+    <div class="basic">
+      <div>
+        <ion-icon style="font-size: 80px;" name="person-circle"></ion-icon>
+      </div>
+    </div>
+  </div>
 </ion-content>
 <app-footer></app-footer>

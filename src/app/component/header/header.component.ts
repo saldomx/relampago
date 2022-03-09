@@ -9,14 +9,14 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./header.component.scss'],
 })
 
- export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit {
   public isSessionActive = false;
 
   constructor(
     private storage: StorageService,
     private route: Router,
     private cacheService: CacheService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.cacheService.getAuthObservable().subscribe((data) => {
@@ -36,9 +36,7 @@ import { StorageService } from 'src/app/services/storage.service';
 
   async logout() {
     const res = await this.storage.remove('auth');
-    this.cacheService.publishAuthData({
-      auth: false,
-    });
+    this.cacheService.publishAuthData({ auth: false });
     this.route.navigateByUrl('login');
   }
 }

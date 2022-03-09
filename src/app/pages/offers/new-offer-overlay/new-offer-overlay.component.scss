@@ -1,0 +1,71 @@
+.i-btn {
+  padding: 0px;
+  width: 45%;
+  background-color: #3056d3;
+  color: #fff;
+  border-radius: 34px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-left: 4px;
+}
+.amt {
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+  height: 35px;
+}
+.c-btn {
+  padding: 0px;
+  width: 45%;
+  background-color: gray;
+  color: #fff;
+  border-radius: 34px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-left: 4px;
+}
+.desc {
+  padding: 6px;
+  margin-top: 15px;
+}
+.col-1 {
+  width: 50%;
+  float: left;
+}
+.col span {
+  font-size: 11px;
+}
+.overlay-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+.com-text {
+  font-size: 16px;
+  font-weight: bold;
+  position: relative;
+  color: #0808088c;
+}
+.long-text {
+  position: relative;
+  top: 10px;
+  font-size: 14px;
+}
+
+.close {
+  font-size: 30px;
+  position: absolute;
+  right: 5px;
+  margin-top: 8px;
+  z-index: 100;
+}
+.scan-i {
+  top: 90px;
+  font-size: 60px;
+  color: #4243a8;
+}
+.scan-d {
+  margin-top: 10px;
+  text-align: center;
+}

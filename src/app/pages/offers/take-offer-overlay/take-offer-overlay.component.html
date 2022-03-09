@@ -1,0 +1,22 @@
+<div>
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div style="margin-top: 65px; padding: 15px;">
+    <form #form="ngForm">
+      <!-- Input with placeholder -->
+      <ion-label color="primary">AMOUNT YOU PAY</ion-label>
+      <ion-input type="number" class="amt" (keyup)="onKeydownEvent(form)" placeholder="0.00" name="amount" ngModel
+        required>
+      </ion-input>
+      <div style="text-align: center;">
+        <span>max: {{offer.amount}},</span> <span>Fee: {{offer.fee}}</span><br />
+        <p>Amount you get: {{getAmount}}</p>
+        <div style="margin-top: 10px;">
+          <button type="submit" class="i-btn" [disabled]="!validAmount" mat-raised-button (click)="takeOffer(form)">Take
+            Offer</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

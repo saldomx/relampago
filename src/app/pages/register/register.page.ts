@@ -38,13 +38,13 @@ export class RegisterPage {
         body: bodyObj,
         url: `${environment.HOST}/api/login/ripplev4/SignUpMX`
       };
-      const response = await self.restService.postWithClient(payload);
-      self.utilityService.dismissLoading();
-      if (response.email === form.value.email) {
-        await this.storage.set('user', JSON.stringify(form.value));
-        self.utilityService.presentToast('Registration done successfully, please verify phone');
-        this.route.navigateByUrl('phone/verification');
-      }
+      // const response = await self.restService.post(payload);
+      // self.utilityService.dismissLoading();
+      // if (response.email === form.value.email) {
+      //   await this.storage.set('user', JSON.stringify(form.value));
+      //   self.utilityService.presentToast('Registration done successfully, please verify phone');
+      //   this.route.navigateByUrl('phone/verification');
+      // }
     } catch (err) {
       setTimeout(() => {
         self.utilityService.presentToast(err.msg || JSON.stringify(err.error));

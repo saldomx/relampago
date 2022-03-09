@@ -1,11 +1,17 @@
+/* eslint-disable quote-props */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { StorageService } from './storage.service';
+import { CacheService } from './cache.service';
+import { UtilityService } from './utility.service';
 
 /**
  * http service to send REST API request to server
@@ -15,8 +21,9 @@ import { Router } from '@angular/router';
  */
 @Injectable()
 export class HttpService {
-  private url = environment.SALDO_HOST;
-  constructor(private httpClient: Http, private route: Router) {}
+  constructor(private httpClient: HttpClient, private route: Router,
+    private storage: StorageService, private cacheService: CacheService,
+    private utilityService: UtilityService) { }
 
   /**
    * Prepare header for every request
@@ -25,56 +32,64 @@ export class HttpService {
    * @memberof HttpService
    */
   getHeader() {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return headers;
-  }
-
-  get(req: any): Observable<any> {
-    const url = this.url + req.uri;
-    const requestOptions = new RequestOptions({
-      headers: this.getHeader(),
-      params: req.params,
-    });
-    return this.httpClient.get(url, requestOptions).pipe(
-      map((response) => response.json()),
-      catchError(this.handleError<any>(''))
-    );
-  }
-
-  post(req: any): Observable<any> {
-    const url = this.url + req.uri;
-    const body = JSON.stringify(req.body);
-    const requestOptions = new RequestOptions({
-      headers: this.getHeader(),
-      body: req.body,
-    });
-    return this.httpClient.post(url, body, requestOptions).pipe(
-      map((response) => response.json()),
-      catchError(this.handleError<any>(''))
-    );
-  }
-
-  put(req: any): Observable<any> {
-    const url = this.url + req.uri;
-    const body = JSON.stringify(req.body);
-    const requestOptions = new RequestOptions({
-      headers: this.getHeader(),
-      params: req.params,
-    });
-    return this.httpClient.put(url, body, requestOptions).pipe(
-      map((response) => response.json()),
-      catchError(this.handleError<any>(''))
-    );
-  }
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (errorObj: any): Observable<T> => {
-      const statusCode = errorObj.status;
-      if (errorObj) {
-        errorObj = errorObj.json();
-        errorObj.statusCode = statusCode;
-        return throwError(errorObj);
-      }
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     };
+  }
+
+  async get(req: any): Promise<Observable<any>> {
+    const self = this;
+    const token = await this.storage.get('auth');
+    const url = req.url;
+    const requestOptions = {
+      headers: new HttpHeaders({ ...self.getHeader(), ...{ 'Authorization': token ? `Bearer ${token}` : '' } }),
+      params: req.params
+    };
+    return self.httpClient.get<any>(url, requestOptions)
+      .pipe(catchError(self.errorHandler.bind(self)));
+  }
+
+  async post(req: any): Promise<Observable<any>> {
+    const self = this;
+    const token = await self.storage.get('auth');
+    const url = req.url;
+    const body = JSON.stringify(req.body);
+    const requestOptions = {
+      headers: new HttpHeaders({ ...self.getHeader(), ...{ 'Authorization': token ? `Bearer ${token}` : '' } }),
+      params: req.params
+    };
+    return self.httpClient.post<any>(url, body, requestOptions)
+      .pipe(catchError(self.errorHandler.bind(self)));
+  }
+
+  async put(req: any): Promise<Observable<any>> {
+    const self = this;
+    const token = await self.storage.get('auth');
+    const url = req.url;
+    const body = JSON.stringify(req.body);
+    const requestOptions = {
+      headers: new HttpHeaders({ ...self.getHeader(), ...{ 'Authorization': token ? `Bearer ${token}` : '' } }),
+      params: req.params
+    };
+    return self.httpClient.put(url, body, requestOptions)
+      .pipe(catchError(self.errorHandler.bind(self)));
+  }
+
+  /** Error Handling method */
+
+  async errorHandler(errorObj: HttpErrorResponse) {
+    const statusCode = errorObj.status;
+    if (statusCode === 401) {
+      await this.storage.remove('auth');
+      this.utilityService.presentToast(JSON.stringify(errorObj.error.error));
+      this.cacheService.publishAuthData({ auth: false });
+      this.route.navigateByUrl('login');
+    }
+    const errorRespose = {
+      message: errorObj.error.error,
+      error: true
+    };
+    return errorRespose;
   }
 }

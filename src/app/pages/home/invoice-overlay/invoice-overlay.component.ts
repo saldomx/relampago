@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
-import { ZBarOptions, ZBar } from '@ionic-native/zbar/ngx';
+import { ZBar } from '@ionic-native/zbar/ngx';
 
 @Component({
   selector: 'app-overlay',
@@ -34,15 +33,9 @@ export class InvoiceOverlayComponent implements OnInit {
   }
   async decodeRequest() {
     const self = this;
-    const payload = {
-      url: `${environment.HOST}/lnp/decode`,
-      body: {
-        paymentRequest: self.paymentRequest
-      }
-    };
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.post(payload);
+      const response = await self.restService.decodeInvoice(self.paymentRequest);
       self.invoiceResult = response;
       self.showDetails = true;
       setTimeout(() => {
@@ -58,19 +51,17 @@ export class InvoiceOverlayComponent implements OnInit {
   async payInvoice() {
     const self = this;
     const payload = {
-      url: `${environment.HOST}/lnp/pay`,
-      body: {
-        paymentRequest: self.paymentRequest,
-        usdAmount: self.invoiceResult.usdAmount
-      }
+      paymentRequest: self.paymentRequest,
+      usdAmount: self.invoiceResult.usdAmount
     };
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.post(payload);
-      self.showSuccess = true;
-      self.showDetails = true;
-      setTimeout(() => {
-        self.utilityService.dismissLoading();
+      (await self.restService.payInvoice(payload)).subscribe(() => {
+        self.showSuccess = true;
+        self.showDetails = true;
+        setTimeout(() => {
+          self.utilityService.dismissLoading();
+        });
       });
     } catch (err) {
       self.utilityService.presentToast(

@@ -1,0 +1,31 @@
+<div>
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div style="margin-top: 25px; padding: 15px;">
+    <form #form="ngForm">
+      <!-- Input with placeholder -->
+      <ion-label color="primary">Method Method</ion-label>
+      <ion-input type="text" class="amt" name="method" ngModel required>
+      </ion-input>
+      <!-- Input with placeholder -->
+      <ion-label color="primary">Amount to sell</ion-label>
+      <ion-input type="number" class="amt" name="amount" ngModel required>
+      </ion-input>
+      <!-- Input with placeholder -->
+      <ion-label color="primary">Fee for transaction</ion-label>
+      <ion-input type="number" value="0.00" class="amt" name="fee" ngModel required>
+      </ion-input>
+      <ion-label color="primary">Message to the buyer</ion-label>
+      <ion-item>
+        <ion-textarea style="font-size: 12px;" rows="1" ngModel name="message">
+        </ion-textarea>
+      </ion-item>
+      <div style="margin-top: 10px;">
+        <button class="c-btn" mat-raised-button (click)="clearInput(form)">Clear</button>
+        <button type="submit" class="i-btn" [disabled]="false" mat-raised-button (click)="createOffer(form)">Create
+          Offer</button>
+      </div>
+    </form>
+  </div>
+</div>

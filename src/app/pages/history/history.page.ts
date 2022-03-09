@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
+import { StatusOverlayComponent } from '../home/status-overlay/status-overlay.component';
 
 @Component({
   selector: 'app-history',
@@ -11,7 +12,8 @@ import { environment } from 'src/environments/environment';
 export class HistoryPage implements OnInit {
 
   public withdrawalTransactions = [];
-  constructor(private utilityService: UtilityService, private restService: RestService) { }
+  constructor(private utilityService: UtilityService, private restService: RestService,
+    private modalCtrl: ModalController) { }
 
   ngOnInit() {
   }
@@ -25,19 +27,17 @@ export class HistoryPage implements OnInit {
 
   async fetchWithdrawal(event) {
     const self = this;
-    const payload = {
-      url: `${environment.HOST}/smx/user/withdrawal/history`,
-    };
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.get(payload);
-      self.withdrawalTransactions = response.result;
-      setTimeout(() => {
-        self.utilityService.dismissLoading();
+      (await self.restService.fetchHistory(0)).subscribe(response => {
+        self.withdrawalTransactions = response.result;
+        setTimeout(() => {
+          self.utilityService.dismissLoading();
+        });
+        if (event) {
+          event.target.complete();
+        }
       });
-      if (event) {
-        event.target.complete();
-      }
     } catch (err) {
       self.utilityService.presentToast(
         err.error.error || JSON.stringify(err.error)
@@ -49,4 +49,17 @@ export class HistoryPage implements OnInit {
     }
   }
 
+  async showStatusModal(item) {
+    const modal = await this.modalCtrl.create({
+      component: StatusOverlayComponent,
+      backdropDismiss: true,
+      cssClass: 'card-overlay',
+      swipeToClose: true,
+      showBackdrop: true,
+      keyboardClose: true,
+      componentProps: { offer: item }
+    });
+
+    return await modal.present();
+  }
 }

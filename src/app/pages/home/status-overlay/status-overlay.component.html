@@ -1,0 +1,53 @@
+<div style="overflow: auto;" #scrollMe [scrollTop]="scrollMe && scrollMe.scrollHeight">
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div class="inf">
+    <p>
+      Have you made the payment?
+    </p>
+    <p>
+      ({{offer.amount}} USD via {{offer['Rayo_offer.payment_method']}})
+    </p>
+    <div>
+      <button class="i-btn" [disabled]="((offer.taker_confirmed? true: offer.isOwner))" mat-raised-button
+        (click)="confirmPayment()">
+        YES, I MADE THE PAYMENT</button>
+    </div>
+  </div>
+  <div class="container-div" [ngClass]="(offer.isOwner=== true)?'darker':''">
+    <img src="assets/images/react.png" class="icon" [ngClass]="(offer.isOwner=== true)?'right':''" alt="Avatar"
+      style="width:100%;">
+    <p>{{offer['Rayo_offer.message']}}</p>
+    <span [ngClass]="(offer.isOwner=== true)?'time-right':'time-left'">{{offer['Rayo_offer.created_at'] |
+      date:'short'}}</span>
+  </div>
+  <!-- <div class="container-div">
+    <img src="assets/images/react.png" class="icon" alt="Avatar" style="width:100%;">
+    <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+    <span class="time-left">11:05</span>
+  </div> -->
+  <div *ngFor="let item of messages; let i=index">
+    <div class="container-div" [ngClass]="(item.side==='left')?'darker':''">
+      <img src="assets/images/react.png" class="icon" alt="Avatar" [ngClass]="(item.side==='left')?'right':''"
+        style="width:100%;">
+      <p>{{item.message}}{{i}}</p>
+      <span [ngClass]="(item.side==='right')?'time-left':'time-right'">{{item.created_at | date:'short'}}</span>
+    </div>
+    <!-- <div class="container-div" *ngIf="(i%2===0) && item.side==='left'">
+      <img src="assets/images/react.png" class="icon" alt="Avatar" style="width:100%;">
+      <p>{{item.message}}</p>
+      <span class="time-right">{{item.created_at | date:'short'}}</span>
+    </div> -->
+  </div>
+
+</div>
+<div>
+  <ion-icon class="refresh-i" name="refresh-circle" (click)="refreshStatus()"></ion-icon>
+</div>
+<div>
+  <ion-item>
+    <ion-textarea placeholder="type a message..." [(ngModel)]="message"></ion-textarea>
+    <button type="submit" mat-raised-button (click)="addMessage()">Send</button>
+  </ion-item>
+</div>

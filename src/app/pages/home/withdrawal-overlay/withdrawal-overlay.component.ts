@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-withdrawal-overlay',
@@ -28,20 +27,18 @@ export class WithdrawalOverlayComponent implements OnInit {
     const self = this;
     const formpPayload = form.value;
     const payload = {
-      url: `${environment.HOST}/transaction/withdrawal/assets`,
-      body: {
-        address: formpPayload.walletAddress,
-        amount: formpPayload.usdAmount,
-        selectpicker: 'Solana Address'
-      }
+      address: formpPayload.walletAddress,
+      amount: formpPayload.usdAmount,
+      selectpicker: 'Solana Address'
     };
     try {
       self.utilityService.presentLoading();
-      const response = await self.restService.post(payload);
-      self.showSuccess = true;
-      self.showDetails = true;
-      setTimeout(() => {
-        self.utilityService.dismissLoading();
+      const response = await (await self.restService.sendPayment(payload)).subscribe(() => {
+        self.showSuccess = true;
+        self.showDetails = true;
+        setTimeout(() => {
+          self.utilityService.dismissLoading();
+        });
       });
     } catch (err) {
       self.utilityService.presentToast(

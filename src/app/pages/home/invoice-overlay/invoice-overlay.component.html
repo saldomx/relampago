@@ -17,12 +17,10 @@
   </div>
   <div class="desc" *ngIf="showDetails">
     <div class="row" style="margin: 20px;">
-      <div class="col col-1">amount: <span>{{invoiceResult.satAmount ||
-          12.33}}(sat)</span>
+      <div class="col col-1">amount: <span>{{invoiceResult.satAmount}}(sat)</span>
       </div>
 
-      <div class="col">amount: <span>{{invoiceResult.usdAmount ||
-          23.32}}(usd)</span>
+      <div class="col">amount: <span>{{invoiceResult.usdAmount}}(usd)</span>
       </div>
     </div>
     <hr style="background-color: gray;">
