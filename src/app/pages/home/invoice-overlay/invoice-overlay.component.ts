@@ -33,7 +33,7 @@ export class InvoiceOverlayComponent implements OnInit {
   }
   async decodeRequest() {
     const self = this;
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.decodeInvoice(self.paymentRequest)).subscribe({
       next: (response) => {
         self.invoiceResult = response;
@@ -57,7 +57,7 @@ export class InvoiceOverlayComponent implements OnInit {
       paymentRequest: self.paymentRequest,
       usdAmount: self.invoiceResult.usdAmount
     };
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.payInvoice(payload)).subscribe({
       next: () => { },
       error: (err) => {

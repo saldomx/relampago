@@ -27,7 +27,7 @@ export class RegisterPage {
 
   async onSubmit(form: NgForm) {
     const self = this;
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     try {
       form.value.country = String(form.value.country.calling_code);
       const bodyObj = form.value;

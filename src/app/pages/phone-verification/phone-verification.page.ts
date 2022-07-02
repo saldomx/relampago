@@ -35,7 +35,7 @@ export class PhoneVerificationPage {
     if (typeof userInfo === 'string') {
       userInfo = JSON.parse(userInfo);
     }
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     try {
       const bodyObj = {
         email: userInfo.email,

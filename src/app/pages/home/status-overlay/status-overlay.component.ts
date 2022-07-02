@@ -31,7 +31,7 @@ export class StatusOverlayComponent implements AfterContentChecked {
   async refreshStatus() {
     const self = this;
 
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.refreshMessage(self.offer.id)).subscribe({
       next: (response) => {
         self.messages = response.messages;
@@ -51,7 +51,7 @@ export class StatusOverlayComponent implements AfterContentChecked {
   async confirmPayment() {
     const self = this;
 
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.updateStatus(this.offer.id)).subscribe({
       next: () => {
         self.offer.taker_confirmed = 1;
@@ -75,7 +75,7 @@ export class StatusOverlayComponent implements AfterContentChecked {
       isOwner: self.offer.isOwner,
       id: self.offer.id
     };
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.addMessage(reqObj)).subscribe({
       next: () => {
         self.message = '';

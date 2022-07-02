@@ -28,7 +28,7 @@ export class LoginPage {
 
   async onSubmit(form: NgForm) {
     const self = this;
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.login(form.value)).subscribe({
       next: async (data) => {
         console.log('Data block', data);
@@ -69,7 +69,7 @@ export class LoginPage {
           title: 'Rayo Biometric',
           fallbackButtonTitle: 'FB Back Button'
         }).then(async (showResult: any) => {
-          self.utilityService.presentLoading();
+          await self.utilityService.presentLoading();
           const reqPayload = {
             clientKey: clientToken
           };

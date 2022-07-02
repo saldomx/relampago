@@ -26,7 +26,7 @@ export class NewOfferOverlayComponent implements OnInit {
 
   async createOffer(form: NgForm) {
     const self = this;
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.createOffer(form.value)).subscribe({
       next: (response) => {
         self.utilityService.presentToast(response.message);

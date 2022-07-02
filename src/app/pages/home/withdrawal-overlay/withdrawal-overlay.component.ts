@@ -31,7 +31,7 @@ export class WithdrawalOverlayComponent implements OnInit {
       amount: formpPayload.usdAmount,
       selectpicker: 'Solana Address'
     };
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     await (await self.restService.sendPayment(payload)).subscribe({
       next: () => { },
       error: (err) => {

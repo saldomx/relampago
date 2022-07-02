@@ -38,7 +38,7 @@ export class TakeOfferOverlayComponent {
     }
     const offer: any = self.offer;
     offer.takenAmount = form.value.amount;
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.takeOffer(offer)).subscribe({
       next: (response) => {
         self.utilityService.presentToast(response.message);

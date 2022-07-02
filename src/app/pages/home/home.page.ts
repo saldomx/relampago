@@ -34,7 +34,7 @@ export class HomePage {
   }
   async fetchUserBal(event) {
     const self = this;
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.getBalance()).subscribe({
       next: (data) => {
         self.userBalance = data.userBal;

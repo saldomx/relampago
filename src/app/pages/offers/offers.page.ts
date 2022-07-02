@@ -40,7 +40,7 @@ export class OffersPage {
 
   async fetchOffers(event) {
     const self = this;
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.listOffer()).subscribe({
       next: (response) => {
         self.offers = response.offers;
@@ -65,7 +65,7 @@ export class OffersPage {
 
   async fetchActiveOffers(event) {
     const self = this;
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.listActiveOffer()).subscribe({
       next: (response) => {
         self.activeOffers = response.activeOffers;
@@ -91,7 +91,7 @@ export class OffersPage {
   async fetchTakenOffers(event) {
     const self = this;
 
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.listTakenOffer()).subscribe({
       next: (response) => {
         self.myOffers = response.takenOffers;
@@ -147,7 +147,7 @@ export class OffersPage {
       id: offer.id,
       amount: offer.amount
     };
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.cancelOffer(payload)).subscribe({
       next: (response) => {
         self.utilityService.presentToast(response.message);
@@ -171,7 +171,7 @@ export class OffersPage {
       amount: element.amount,
       nickName: element.taker
     };
-    self.utilityService.presentLoading();
+    await self.utilityService.presentLoading();
     (await self.restService.confirmOffer(payload)).subscribe({
       next: (response) => {
         self.utilityService.presentToast(response.message);
