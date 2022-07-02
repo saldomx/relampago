@@ -40,76 +40,78 @@ export class OffersPage {
 
   async fetchOffers(event) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.listOffer()).subscribe(response => {
+    self.utilityService.presentLoading();
+    (await self.restService.listOffer()).subscribe({
+      next: (response) => {
         self.offers = response.offers;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-      if (event) {
-        event.target.complete();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+        if (event) {
+          event.target.complete();
+        }
       }
-    }
+    });
   }
 
   async fetchActiveOffers(event) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.listActiveOffer()).subscribe(response => {
+    self.utilityService.presentLoading();
+    (await self.restService.listActiveOffer()).subscribe({
+      next: (response) => {
         self.activeOffers = response.activeOffers;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
-        this.fetchTakenOffers(null);
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-      if (event) {
-        event.target.complete();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+        if (event) {
+          event.target.complete();
+        }
       }
-    }
+    });
   }
 
   async fetchTakenOffers(event) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.listTakenOffer()).subscribe(response => {
+
+    self.utilityService.presentLoading();
+    (await self.restService.listTakenOffer()).subscribe({
+      next: (response) => {
         self.myOffers = response.takenOffers;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
-      });
-
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-      if (event) {
-        event.target.complete();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+        if (event) {
+          event.target.complete();
+        }
       }
-    }
+    });
   }
 
   async showNewOfferModal() {
@@ -145,21 +147,22 @@ export class OffersPage {
       id: offer.id,
       amount: offer.amount
     };
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.cancelOffer(payload)).subscribe(response => {
+    self.utilityService.presentLoading();
+    (await self.restService.cancelOffer(payload)).subscribe({
+      next: (response) => {
         self.utilityService.presentToast(response.message);
         self.activeOffers = self.activeOffers.filter(item => item.id !== offer.id);
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+      }
+    });
   }
   async confirmOffer(element) {
     const self = this;
@@ -168,20 +171,21 @@ export class OffersPage {
       amount: element.amount,
       nickName: element.taker
     };
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.confirmOffer(payload)).subscribe(response => {
+    self.utilityService.presentLoading();
+    (await self.restService.confirmOffer(payload)).subscribe({
+      next: (response) => {
         self.utilityService.presentToast(response.message);
         element.status = 'confirmed';
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+      }
+    });
   }
 }

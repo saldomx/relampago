@@ -33,20 +33,23 @@ export class InvoiceOverlayComponent implements OnInit {
   }
   async decodeRequest() {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      const response = await self.restService.decodeInvoice(self.paymentRequest);
-      self.invoiceResult = response;
-      self.showDetails = true;
-      setTimeout(() => {
+    self.utilityService.presentLoading();
+    (await self.restService.decodeInvoice(self.paymentRequest)).subscribe({
+      next: (response) => {
+        self.invoiceResult = response;
+      },
+      error: (err) => {
+        console.log('Error', err);
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
         self.utilityService.dismissLoading();
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+        self.showDetails = true;
+      }
+    });
   }
   async payInvoice() {
     const self = this;
@@ -54,21 +57,22 @@ export class InvoiceOverlayComponent implements OnInit {
       paymentRequest: self.paymentRequest,
       usdAmount: self.invoiceResult.usdAmount
     };
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.payInvoice(payload)).subscribe(() => {
-        self.showSuccess = true;
+    self.utilityService.presentLoading();
+    (await self.restService.payInvoice(payload)).subscribe({
+      next: () => { },
+      error: (err) => {
+        console.log('Error', err);
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
         self.showDetails = true;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+        self.showSuccess = true;
+      }
+    });
   }
   async dismiss() {
     await this.modalCtrl.dismiss();
@@ -77,9 +81,9 @@ export class InvoiceOverlayComponent implements OnInit {
   barcodeScanner() {
     const self = this;
     self.zbarPlugin.scan(this.optionZbar)
-      .then(respone => {
-        console.log(respone);
-        self.paymentRequest = respone;
+      .then(response => {
+        console.log(response);
+        self.paymentRequest = response;
         self.decodeRequest();
       })
       .catch(error => {

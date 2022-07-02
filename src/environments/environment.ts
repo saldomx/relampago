@@ -5,7 +5,7 @@
 
 export const environment = {
   PRODUCTION: false,
-  HOST: 'http://localhost:3003/api',
+  HOST: 'http://localhost:3005/api',
   SALDO_HOST: 'http://localhost:3010/api/solana',
   CLIENT_INFO: {
     NAME: 'saldoapp',

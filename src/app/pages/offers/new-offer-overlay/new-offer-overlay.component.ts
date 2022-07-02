@@ -26,22 +26,21 @@ export class NewOfferOverlayComponent implements OnInit {
 
   async createOffer(form: NgForm) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.createOffer(form.value)).subscribe(async (response) => {
+    self.utilityService.presentLoading();
+    (await self.restService.createOffer(form.value)).subscribe({
+      next: (response) => {
         self.utilityService.presentToast(response.message);
-        if (!response.error) {
-          await this.modalCtrl.dismiss();
-        }
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: async () => {
+        self.utilityService.dismissLoading();
+        await this.modalCtrl.dismiss();
+      }
+    });
   }
 }

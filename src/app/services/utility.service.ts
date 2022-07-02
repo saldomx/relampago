@@ -8,11 +8,12 @@ import { environment } from 'src/environments/environment';
 export class UtilityService {
   private loaderEvent;
   private toast;
+  private isLoading = false;
 
   constructor(
     private loadingController: LoadingController,
     private toastController: ToastController
-  ) {}
+  ) { }
 
   async presentLoading() {
     this.loaderEvent = await this.loadingController.create({
@@ -22,7 +23,8 @@ export class UtilityService {
     await this.loaderEvent.present();
   }
   async dismissLoading() {
-    const res = await this.loaderEvent.dismiss();
+    await this.loaderEvent.dismiss()
+      .then(() => console.log('dismissed'));
   }
   async presentToast(text) {
     this.toast = await this.toastController.create({
@@ -34,6 +36,6 @@ export class UtilityService {
     this.toast.present();
   }
   async hideToast() {
-    const { role } = await this.toast.onDidDismiss();
+    await this.toast.onDidDismiss();
   }
 }

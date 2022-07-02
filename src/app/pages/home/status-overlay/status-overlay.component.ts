@@ -30,65 +30,67 @@ export class StatusOverlayComponent implements AfterContentChecked {
 
   async refreshStatus() {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.refreshMessage(self.offer.id)).subscribe(response => {
+
+    self.utilityService.presentLoading();
+    (await self.restService.refreshMessage(self.offer.id)).subscribe({
+      next: (response) => {
         self.messages = response.messages;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+      },
+      error: (err) => {
+        console.log('Error', err);
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+      }
+    });
   }
   async confirmPayment() {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.updateStatus(this.offer.id)).subscribe(response => {
-        if (!response.error) {
-          self.offer.taker_confirmed = 1;
-        }
-        self.utilityService.presentToast(response.message);
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+
+    self.utilityService.presentLoading();
+    (await self.restService.updateStatus(this.offer.id)).subscribe({
+      next: () => {
+        self.offer.taker_confirmed = 1;
+      },
+      error: (err) => {
+        console.log('Error', err);
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+      }
+    });
   }
   async addMessage() {
     const self = this;
-    try {
-      const reqObj = {
-        message: self.message,
-        isOwner: self.offer.isOwner,
-        id: self.offer.id
-      };
-      self.utilityService.presentLoading();
-      (await self.restService.addMessage(reqObj)).subscribe(response => {
-        if (!response.error) {
-          self.message = '';
-          self.refreshStatus();
-        }
-
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+    const reqObj = {
+      message: self.message,
+      isOwner: self.offer.isOwner,
+      id: self.offer.id
+    };
+    self.utilityService.presentLoading();
+    (await self.restService.addMessage(reqObj)).subscribe({
+      next: () => {
+        self.message = '';
+      },
+      error: (err) => {
+        console.log('Error', err);
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+        self.refreshStatus();
+      }
+    });
   }
 }

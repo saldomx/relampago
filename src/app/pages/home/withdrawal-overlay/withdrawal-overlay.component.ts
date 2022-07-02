@@ -31,22 +31,24 @@ export class WithdrawalOverlayComponent implements OnInit {
       amount: formpPayload.usdAmount,
       selectpicker: 'Solana Address'
     };
-    try {
-      self.utilityService.presentLoading();
-      const response = await (await self.restService.sendPayment(payload)).subscribe(() => {
+    self.utilityService.presentLoading();
+    await (await self.restService.sendPayment(payload)).subscribe({
+      next: () => { },
+      error: (err) => {
+        console.log('Error', err);
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
         self.showSuccess = true;
         self.showDetails = true;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+      }
+    });
   }
+
   async dismiss() {
     await this.modalCtrl.dismiss();
   }

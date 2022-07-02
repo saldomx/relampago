@@ -29,21 +29,26 @@ export class LoginPage {
   async onSubmit(form: NgForm) {
     const self = this;
     self.utilityService.presentLoading();
-    try {
-      (await self.restService.login(form.value)).subscribe(async (data) => {
-        self.utilityService.dismissLoading();
+    (await self.restService.login(form.value)).subscribe({
+      next: async (data) => {
+        console.log('Data block', data);
         await self.storage.set('auth', data.token);
-        self.cacheService.setAuth(true);
-        this.cacheService.publishAuthData({ auth: true });
-        self.route.navigateByUrl('/home');
-      });
-    } catch (err) {
-      setTimeout(() => {
-        self.utilityService.presentToast(JSON.stringify(err));
+      },
+      error: (err) => {
+        console.log('Error', err);
+        self.utilityService.presentToast(err.error.error || 'Invalid credential or not authorised user');
         self.utilityService.dismissLoading();
-      });
-    }
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+        self.cacheService.setAuth(true);
+        self.cacheService.publishAuthData({ auth: true });
+        self.route.navigateByUrl('/home');
+        console.log('complete block');
+      }
+    });
   }
+
   goToRegister() {
     this.route.navigateByUrl('register');
   }
@@ -69,14 +74,32 @@ export class LoginPage {
             clientKey: clientToken
           };
           (await self.restService.biometricLogin(reqPayload))
-            .subscribe(async (data) => {
-              self.utilityService.dismissLoading();
-              await self.storage.set('auth', data.token);
-              self.cacheService.setAuth(true);
-              this.cacheService.publishAuthData({ auth: true });
-              self.cdRef.detectChanges();
-              self.route.navigateByUrl('/home');
-            });
+            .subscribe({
+              next: async (data) => {
+                await self.storage.set('auth', data.token);
+              },
+              error: (err) => {
+                console.log('Error', err);
+                self.utilityService.presentToast(err.error.error || 'Invalid credential or not authorised user');
+                self.utilityService.dismissLoading();
+              },
+              complete: () => {
+                self.utilityService.dismissLoading();
+                self.cacheService.setAuth(true);
+                this.cacheService.publishAuthData({ auth: true });
+                self.cdRef.detectChanges();
+                self.route.navigateByUrl('/home');
+              }
+            }
+              //   async (data) => {
+              //   self.utilityService.dismissLoading();
+              //   await self.storage.set('auth', data.token);
+              //   self.cacheService.setAuth(true);
+              //   this.cacheService.publishAuthData({ auth: true });
+              //   self.cdRef.detectChanges();
+              //   self.route.navigateByUrl('/home');
+              // }
+            );
         }).catch(async (error: any) => {
           console.log(error);
           self.utilityService.presentToast('Match not found');

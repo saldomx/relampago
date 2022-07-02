@@ -38,24 +38,22 @@ export class TakeOfferOverlayComponent {
     }
     const offer: any = self.offer;
     offer.takenAmount = form.value.amount;
-
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.takeOffer(offer)).subscribe(async (response) => {
+    self.utilityService.presentLoading();
+    (await self.restService.takeOffer(offer)).subscribe({
+      next: (response) => {
         self.utilityService.presentToast(response.message);
-        if (!response.error) {
-          await this.modalCtrl.dismiss();
-        }
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
+      },
+      complete: async () => {
+        self.utilityService.dismissLoading();
+        await this.modalCtrl.dismiss();
+      }
+    });
   }
   onKeydownEvent(form: NgForm) {
     const self = this;

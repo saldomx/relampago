@@ -34,55 +34,52 @@ export class HomePage {
   }
   async fetchUserBal(event) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.getBalance()).subscribe(data => {
+    self.utilityService.presentLoading();
+    (await self.restService.getBalance()).subscribe({
+      next: (data) => {
         self.userBalance = data.userBal;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-          self.fetchWithdrawal(null);
-        });
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-      if (err && err.status === 401) {
-        self.storage.remove('auth');
-        self.route.navigateByUrl('login');
+        if (err && err.status === 401) {
+          self.storage.remove('auth');
+          self.route.navigateByUrl('login');
+        }
+      },
+      complete: () => {
+        self.fetchWithdrawal(event);
       }
-      if (event) {
-        event.target.complete();
-      }
-    }
+    });
   }
 
   async fetchWithdrawal(event) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.fetchHistory(2)).subscribe((data => {
+    (await self.restService.fetchHistory(2)).subscribe({
+      next: (data) => {
         self.withdrawalTransactions = data.result;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
+      },
+      error: (err) => {
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
-      }));
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-      if (event) {
-        event.target.complete();
+      },
+      complete: () => {
+        self.utilityService.dismissLoading();
+        if (event) {
+          event.target.complete();
+        }
       }
-    }
+    });
   }
 
   async showInvoiceModal() {
