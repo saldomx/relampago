@@ -55,9 +55,12 @@ export class TakeOfferOverlayComponent {
       }
     });
   }
-  onKeydownEvent(form: NgForm) {
+  onKeydownEvent(event, form: NgForm) {
     const self = this;
-    if (form.value.amount > (Number(self.offer.amount) - Number(self.offer.fee))) {
+    const amount = form.value.amount;
+    const maxAmountCanTake = Number(self.offer.amount) - Number(self.offer.fee);
+
+    if (amount > maxAmountCanTake) {
       self.validAmount = false;
       self.getAmount = 'Invalid amount';
     } else {

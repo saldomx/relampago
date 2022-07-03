@@ -28,15 +28,14 @@ export class HeaderComponent implements OnInit {
         }
       },
       error: () => { },
-      complete: async () => {
-        const auth = await this.storage.get('auth');
-        if (auth) {
-          this.isSessionActive = true;
-        } else {
-          this.isSessionActive = false;
-        }
-      }
+      complete: async () => { }
     });
+    const auth = await this.storage.get('auth');
+    if (auth) {
+      this.isSessionActive = true;
+    } else {
+      this.isSessionActive = false;
+    }
   }
 
   async logout() {
