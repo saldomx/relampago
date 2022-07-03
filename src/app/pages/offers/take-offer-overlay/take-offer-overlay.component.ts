@@ -33,7 +33,7 @@ export class TakeOfferOverlayComponent {
   async takeOffer(form: NgForm) {
     const self = this;
     if (form.value.amount > (Number(self.offer.amount) + Number(self.offer.fee))) {
-      self.utilityService.presentToast('Invalid amount input, please put amount less that offer amount - fee');
+      self.utilityService.presentToast('Invalid amount input, please put amount less than offer amount - fee');
       return false;
     }
     const offer: any = self.offer;
@@ -43,14 +43,14 @@ export class TakeOfferOverlayComponent {
       next: (response) => {
         self.utilityService.presentToast(response.message);
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
       complete: async () => {
-        self.utilityService.dismissLoading();
+        await self.utilityService.dismissLoading();
         await this.modalCtrl.dismiss();
       }
     });

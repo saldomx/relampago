@@ -36,15 +36,14 @@ export class StatusOverlayComponent implements AfterContentChecked {
       next: (response) => {
         self.messages = response.messages;
       },
-      error: (err) => {
-        console.log('Error', err);
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
       }
     });
   }
@@ -56,15 +55,14 @@ export class StatusOverlayComponent implements AfterContentChecked {
       next: () => {
         self.offer.taker_confirmed = 1;
       },
-      error: (err) => {
-        console.log('Error', err);
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
       }
     });
   }
@@ -77,18 +75,16 @@ export class StatusOverlayComponent implements AfterContentChecked {
     };
     await self.utilityService.presentLoading();
     (await self.restService.addMessage(reqObj)).subscribe({
-      next: () => {
-        self.message = '';
-      },
-      error: (err) => {
-        console.log('Error', err);
+      next: () => { },
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
+        self.message = '';
         self.refreshStatus();
       }
     });

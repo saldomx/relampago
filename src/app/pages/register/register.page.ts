@@ -27,30 +27,30 @@ export class RegisterPage {
 
   async onSubmit(form: NgForm) {
     const self = this;
-    await self.utilityService.presentLoading();
-    try {
-      form.value.country = String(form.value.country.calling_code);
-      const bodyObj = form.value;
-      bodyObj.agent = null;
-      bodyObj.fbid = null;
+    // await self.utilityService.presentLoading();
+    // try {
+    // form.value.country = String(form.value.country.calling_code);
+    // const bodyObj = form.value;
+    // bodyObj.agent = null;
+    // bodyObj.fbid = null;
 
-      const payload = {
-        body: bodyObj,
-        url: `${environment.HOST}/api/login/ripplev4/SignUpMX`
-      };
-      // const response = await self.restService.post(payload);
-      // self.utilityService.dismissLoading();
-      // if (response.email === form.value.email) {
-      //   await this.storage.set('user', JSON.stringify(form.value));
-      //   self.utilityService.presentToast('Registration done successfully, please verify phone');
-      //   this.route.navigateByUrl('phone/verification');
-      // }
-    } catch (err) {
-      setTimeout(() => {
-        self.utilityService.presentToast(err.msg || JSON.stringify(err.error));
-        self.utilityService.dismissLoading();
-      });
-    }
+    // const payload = {
+    //   body: bodyObj,
+    //   url: `${environment.HOST}/api/login/ripplev4/SignUpMX`
+    // };
+    // const response = await self.restService.post(payload);
+    // await self.utilityService.dismissLoading();
+    // if (response.email === form.value.email) {
+    //   await this.storage.set('user', JSON.stringify(form.value));
+    //   self.utilityService.presentToast('Registration done successfully, please verify phone');
+    //   this.route.navigateByUrl('phone/verification');
+    // }
+    // } catch (err) {
+    //   setTimeout(() => {
+    //     self.utilityService.presentToast(err.msg || JSON.stringify(err.error));
+    //     await self.utilityService.dismissLoading();
+    //   });
+    // }
   }
   goToLogin() {
     this.route.navigateByUrl('login');

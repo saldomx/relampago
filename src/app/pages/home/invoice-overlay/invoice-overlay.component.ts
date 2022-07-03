@@ -38,15 +38,14 @@ export class InvoiceOverlayComponent implements OnInit {
       next: (response) => {
         self.invoiceResult = response;
       },
-      error: (err) => {
-        console.log('Error', err);
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
         self.showDetails = true;
       }
     });
@@ -60,15 +59,14 @@ export class InvoiceOverlayComponent implements OnInit {
     await self.utilityService.presentLoading();
     (await self.restService.payInvoice(payload)).subscribe({
       next: () => { },
-      error: (err) => {
-        console.log('Error', err);
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
         self.showDetails = true;
         self.showSuccess = true;
       }

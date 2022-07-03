@@ -35,15 +35,15 @@ export class ProfilePage {
         self.isChecked = response.bio_enabled ? true : false;
         self.cdRef.detectChanges();
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(err.error.error || JSON.stringify(err));
-        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
@@ -80,12 +80,12 @@ export class ProfilePage {
       next: (response) => {
         self.utilityService.presentToast(response.message || JSON.stringify(response));
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(err.error.error || JSON.stringify(err));
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
       }
     });
   }
@@ -105,10 +105,10 @@ export class ProfilePage {
               next: async (data) => {
                 await self.storage.set('x-client-token', data.publicKey);
               },
-              error: (err) => {
+              error: async (err) => {
                 self.utilityService.presentToast(err.error.error || JSON.stringify(err));
               },
-              complete: () => {
+              complete: async () => {
                 self.updateBioValue(checked);
               }
             });

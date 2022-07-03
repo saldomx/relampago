@@ -39,11 +39,11 @@ export class HomePage {
       next: (data) => {
         self.userBalance = data.userBal;
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
@@ -52,7 +52,7 @@ export class HomePage {
           self.route.navigateByUrl('login');
         }
       },
-      complete: () => {
+      complete: async () => {
         self.fetchWithdrawal(event);
       }
     });
@@ -64,17 +64,17 @@ export class HomePage {
       next: (data) => {
         self.withdrawalTransactions = data.result;
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }

@@ -34,15 +34,14 @@ export class WithdrawalOverlayComponent implements OnInit {
     await self.utilityService.presentLoading();
     await (await self.restService.sendPayment(payload)).subscribe({
       next: () => { },
-      error: (err) => {
-        console.log('Error', err);
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
         self.showSuccess = true;
         self.showDetails = true;
       }

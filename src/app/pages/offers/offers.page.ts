@@ -45,17 +45,17 @@ export class OffersPage {
       next: (response) => {
         self.offers = response.offers;
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
@@ -70,17 +70,17 @@ export class OffersPage {
       next: (response) => {
         self.activeOffers = response.activeOffers;
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
@@ -96,17 +96,17 @@ export class OffersPage {
       next: (response) => {
         self.myOffers = response.takenOffers;
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
         if (event) {
           event.target.complete();
         }
@@ -153,14 +153,14 @@ export class OffersPage {
         self.utilityService.presentToast(response.message);
         self.activeOffers = self.activeOffers.filter(item => item.id !== offer.id);
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
       }
     });
   }
@@ -177,14 +177,14 @@ export class OffersPage {
         self.utilityService.presentToast(response.message);
         element.status = 'confirmed';
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
-      complete: () => {
-        self.utilityService.dismissLoading();
+      complete: async () => {
+        await self.utilityService.dismissLoading();
       }
     });
   }

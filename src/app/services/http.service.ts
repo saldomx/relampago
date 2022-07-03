@@ -55,7 +55,8 @@ export class HttpService {
       headers: new HttpHeaders(headers),
       params: req.params
     };
-    return self.httpClient.get<any>(url, requestOptions);
+    return self.httpClient.get<any>(url, requestOptions)
+      .pipe(catchError(self.errorHandler.bind(self)));
   }
 
   async post(req: any): Promise<Observable<any>> {
@@ -68,7 +69,8 @@ export class HttpService {
       params: req.params
     };
 
-    return self.httpClient.post<any>(url, body, requestOptions);
+    return self.httpClient.post<any>(url, body, requestOptions)
+      .pipe(catchError(self.errorHandler.bind(self)));
   }
 
   async put(req: any): Promise<Observable<any>> {
@@ -80,6 +82,20 @@ export class HttpService {
       headers: new HttpHeaders(headers),
       params: req.params
     };
-    return self.httpClient.put(url, body, requestOptions);
+    return self.httpClient.put(url, body, requestOptions)
+      .pipe(catchError(self.errorHandler.bind(self)));
+  }
+
+  /** Error Handling method */
+
+  async errorHandler(errorObj: HttpErrorResponse) {
+    const statusCode = errorObj.status;
+    if (statusCode === 401) {
+      await this.storage.remove('auth');
+      this.utilityService.presentToast(JSON.stringify(errorObj.error.error));
+      this.cacheService.publishAuthData({ auth: false });
+      this.route.navigateByUrl('login');
+    }
+    throw new Error(errorObj.error.error);
   }
 }

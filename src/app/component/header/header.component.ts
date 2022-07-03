@@ -19,19 +19,24 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.cacheService.getAuthObservable().subscribe((data) => {
-      if (data.auth === true) {
-        this.isSessionActive = true;
-      } else {
-        this.isSessionActive = false;
+    this.cacheService.getAuthObservable().subscribe({
+      next: (data) => {
+        if (data.auth === true) {
+          this.isSessionActive = true;
+        } else {
+          this.isSessionActive = false;
+        }
+      },
+      error: () => { },
+      complete: async () => {
+        const auth = await this.storage.get('auth');
+        if (auth) {
+          this.isSessionActive = true;
+        } else {
+          this.isSessionActive = false;
+        }
       }
     });
-    const auth = await this.storage.get('auth');
-    if (auth) {
-      this.isSessionActive = true;
-    } else {
-      this.isSessionActive = false;
-    }
   }
 
   async logout() {

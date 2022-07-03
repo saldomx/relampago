@@ -31,14 +31,14 @@ export class NewOfferOverlayComponent implements OnInit {
       next: (response) => {
         self.utilityService.presentToast(response.message);
       },
-      error: (err) => {
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
         self.utilityService.presentToast(
           err.error.error || JSON.stringify(err.error)
         );
-        self.utilityService.dismissLoading();
       },
       complete: async () => {
-        self.utilityService.dismissLoading();
+        await self.utilityService.dismissLoading();
         await this.modalCtrl.dismiss();
       }
     });
