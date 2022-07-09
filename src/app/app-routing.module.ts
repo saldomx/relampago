@@ -35,12 +35,23 @@ const routes: Routes = [
   {
     path: 'history',
     loadChildren: () => import('./pages/history/history.module').then(m => m.HistoryPageModule)
-  },  {
+  },
+  {
     path: 'offers',
-    loadChildren: () => import('./pages/offers/offers.module').then( m => m.OffersPageModule)
+    loadChildren: () => import('./pages/offers/offers.module').then(m => m.OffersPageModule)
+  },
+  {
+    path: 'decode-invoice',
+    loadChildren: () => import('./pages/lnpay/decode-invoice/decode-invoice.module').then(m => m.DecodeInvoicePageModule)
+  },
+  {
+    path: 'pay-invoice',
+    loadChildren: () => import('./pages/lnpay/pay-invoice/pay-invoice.module').then(m => m.PayInvoicePageModule)
+  },
+  {
+    path: 'info-invoice',
+    loadChildren: () => import('./pages/lnpay/info-invoice/info-invoice.module').then(m => m.InfoInvoicePageModule)
   }
-
-
 ];
 
 @NgModule({

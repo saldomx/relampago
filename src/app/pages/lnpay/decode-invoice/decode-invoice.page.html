@@ -1,0 +1,70 @@
+<app-header></app-header>
+<div style="background-color: #fff;height: 100%;overflow-y: auto;">
+<div  *ngIf="!showSuccess">
+  <div style="margin-top: 25px;">
+    <ion-item>
+      <ion-textarea style="font-size: 11px;" rows="4" [(ngModel)]="paymentRequest" name="paymentRequest"
+        placeholder="Enter payment request here..."></ion-textarea>
+    </ion-item>
+    <div style="text-align: center;">
+      <button class="c-btn" mat-raised-button (click)="clearRequest()">Clear</button>
+      <button class="i-btn" [disabled]="!paymentRequest" mat-raised-button (click)="decodeRequest()">Decode</button>
+    </div>
+    <div class="scan-d">
+      <ion-icon class="scan-i" name="scan-circle-outline" (click)="barcodeScanner()"></ion-icon>
+    </div>
+  </div>
+  <div class="desc" *ngIf="showDetails">
+    <div class="row" style="margin: 12px;">
+      <div class="col col-1">
+        <ion-label>
+          amount: <span>{{invoiceResult.satAmount}}(sat)</span>
+        </ion-label>
+      </div>
+
+      <div class="col">
+        <ion-label>
+          amount: <span>{{invoiceResult.usdAmount}}(usd)</span>
+        </ion-label>
+      </div>
+    </div>
+    <hr style="background-color: gray;">
+    <div class="row" style="margin: 20px; text-align: center;">
+      <div class="col">
+        <ion-label>
+          wallet<br> <span>{{invoiceResult.wallet}}</span>
+          </ion-label>
+      </div>
+    </div>
+    <hr style="background-color: gray;">
+    <div class="row" style="margin: 20px; text-align: center;">
+      <div class="col">
+        
+        <ion-label>
+          memo<br> <span>{{invoiceResult.memo}}</span>
+          </ion-label>
+      </div>
+    </div>
+    <div style="text-align: center;margin-bottom: 15px;">
+      <button class="i-btn" mat-raised-button (click)="payInvoice()">Pay Invoice</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="showSuccess" class="success">
+  <div class="overlay-main">
+    <div>
+      <img src="assets/images/success-ok.png" height="100" alt="">
+    </div>
+    <div style="text-align: center;">
+      <span class="com-text">Completed</span>
+      <br />
+      <span class="long-text">You transaction has been successful</span>
+    </div>
+    <div id="back-btn">
+      <button class="c-btn" mat-raised-button (click)="goToHome()">Back</button>
+    </div>
+  </div>
+</div>
+</div>
+<app-footer></app-footer>
+

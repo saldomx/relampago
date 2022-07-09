@@ -82,19 +82,6 @@ export class HomePage {
     });
   }
 
-  async showInvoiceModal() {
-    const modal = await this.modalCtrl.create({
-      component: InvoiceOverlayComponent,
-      backdropDismiss: true,
-      cssClass: 'card-overlay',
-      swipeToClose: true,
-      showBackdrop: true,
-      keyboardClose: true,
-    });
-
-    return await modal.present();
-  }
-
   async showWithdrawalModal() {
     const modal = await this.modalCtrl.create({
       component: WithdrawalOverlayComponent,
@@ -106,6 +93,10 @@ export class HomePage {
     });
 
     return await modal.present();
+  }
+
+  goToInvoice() {
+    this.router.navigate(['decode-invoice']);
   }
 
   goToHistory() {
