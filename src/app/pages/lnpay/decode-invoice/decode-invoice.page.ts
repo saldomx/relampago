@@ -79,7 +79,6 @@ export class DecodeInvoicePage implements OnInit {
     const self = this;
     self.zbarPlugin.scan(this.optionZbar)
       .then(response => {
-        console.log(response);
         self.paymentRequest = response;
         self.decodeRequest();
       })
