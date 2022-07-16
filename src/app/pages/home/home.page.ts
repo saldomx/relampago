@@ -34,68 +34,52 @@ export class HomePage {
   }
   async fetchUserBal(event) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.getBalance()).subscribe(data => {
+    await self.utilityService.presentLoading();
+    (await self.restService.getBalance()).subscribe({
+      next: (data) => {
         self.userBalance = data.userBal;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-          self.fetchWithdrawal(null);
-        });
+      },
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
         if (event) {
           event.target.complete();
         }
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-      if (err && err.status === 401) {
-        self.storage.remove('auth');
-        self.route.navigateByUrl('login');
+        if (err && err.status === 401) {
+          self.storage.remove('auth');
+          self.route.navigateByUrl('login');
+        }
+      },
+      complete: async () => {
+        self.fetchWithdrawal(event);
       }
-      if (event) {
-        event.target.complete();
-      }
-    }
+    });
   }
 
   async fetchWithdrawal(event) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.fetchHistory(2)).subscribe((data => {
+    (await self.restService.fetchHistory(2)).subscribe({
+      next: (data) => {
         self.withdrawalTransactions = data.result;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
+      },
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
         if (event) {
           event.target.complete();
         }
-      }));
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-      if (event) {
-        event.target.complete();
+      },
+      complete: async () => {
+        await self.utilityService.dismissLoading();
+        if (event) {
+          event.target.complete();
+        }
       }
-    }
-  }
-
-  async showInvoiceModal() {
-    const modal = await this.modalCtrl.create({
-      component: InvoiceOverlayComponent,
-      backdropDismiss: true,
-      cssClass: 'card-overlay',
-      swipeToClose: true,
-      showBackdrop: true,
-      keyboardClose: true,
     });
-
-    return await modal.present();
   }
 
   async showWithdrawalModal() {
@@ -109,6 +93,10 @@ export class HomePage {
     });
 
     return await modal.present();
+  }
+
+  goToInvoice() {
+    this.router.navigate(['decode-invoice']);
   }
 
   goToHistory() {

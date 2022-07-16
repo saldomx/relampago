@@ -27,26 +27,25 @@ export class HistoryPage implements OnInit {
 
   async fetchWithdrawal(event) {
     const self = this;
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.fetchHistory(0)).subscribe(response => {
+    await self.utilityService.presentLoading();
+    (await self.restService.fetchHistory(0)).subscribe({
+      next: (response) => {
         self.withdrawalTransactions = response.result;
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
+      },
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
+        self.utilityService.presentToast(err.error.error || JSON.stringify(err));
         if (event) {
           event.target.complete();
         }
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-      if (event) {
-        event.target.complete();
+      },
+      complete: async () => {
+        await self.utilityService.dismissLoading();
+        if (event) {
+          event.target.complete();
+        }
       }
-    }
+    });
   }
 
   async showStatusModal(item) {

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ZBar } from '@ionic-native/zbar/ngx';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { ZBar } from '@ionic-native/zbar/ngx';
 
 @Component({
-  selector: 'app-overlay',
-  templateUrl: './invoice-overlay.component.html',
-  styleUrls: ['./invoice-overlay.component.scss'],
+  selector: 'app-decode-invoice',
+  templateUrl: './decode-invoice.page.html',
+  styleUrls: ['./decode-invoice.page.scss'],
 })
-export class InvoiceOverlayComponent implements OnInit {
+export class DecodeInvoicePage implements OnInit {
+
   public invoiceResult: any = {};
   public showDetails: any = false;
   public showSuccess: any = false;
@@ -18,7 +19,7 @@ export class InvoiceOverlayComponent implements OnInit {
   public paymentRequest = '';
   constructor(private utilityService: UtilityService,
     private restService: RestService,
-    private modalCtrl: ModalController,
+    private router: Router,
     private zbarPlugin: ZBar) {
     this.optionZbar = {
       flash: 'off',
@@ -30,6 +31,7 @@ export class InvoiceOverlayComponent implements OnInit {
 
   clearRequest() {
     this.paymentRequest = '';
+    this.showDetails = false;
   }
   async decodeRequest() {
     const self = this;
@@ -72,15 +74,11 @@ export class InvoiceOverlayComponent implements OnInit {
       }
     });
   }
-  async dismiss() {
-    await this.modalCtrl.dismiss();
-  }
 
   barcodeScanner() {
     const self = this;
     self.zbarPlugin.scan(this.optionZbar)
       .then(response => {
-        console.log(response);
         self.paymentRequest = response;
         self.decodeRequest();
       })
@@ -88,4 +86,8 @@ export class InvoiceOverlayComponent implements OnInit {
         alert(error);
       });
   }
+  goToHome() {
+    this.router.navigate(['home']);
+  }
+
 }

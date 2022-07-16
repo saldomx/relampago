@@ -33,33 +33,34 @@ export class TakeOfferOverlayComponent {
   async takeOffer(form: NgForm) {
     const self = this;
     if (form.value.amount > (Number(self.offer.amount) + Number(self.offer.fee))) {
-      self.utilityService.presentToast('Invalid amount input, please put amount less that offer amount - fee');
+      self.utilityService.presentToast('Invalid amount input, please put amount less than offer amount - fee');
       return false;
     }
     const offer: any = self.offer;
     offer.takenAmount = form.value.amount;
-
-    try {
-      self.utilityService.presentLoading();
-      (await self.restService.takeOffer(offer)).subscribe(async (response) => {
+    await self.utilityService.presentLoading();
+    (await self.restService.takeOffer(offer)).subscribe({
+      next: (response) => {
         self.utilityService.presentToast(response.message);
-        if (!response.error) {
-          await this.modalCtrl.dismiss();
-        }
-        setTimeout(() => {
-          self.utilityService.dismissLoading();
-        });
-      });
-    } catch (err) {
-      self.utilityService.presentToast(
-        err.error.error || JSON.stringify(err.error)
-      );
-      self.utilityService.dismissLoading();
-    }
+      },
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
+        self.utilityService.presentToast(
+          err.error.error || JSON.stringify(err.error)
+        );
+      },
+      complete: async () => {
+        await self.utilityService.dismissLoading();
+        await this.modalCtrl.dismiss();
+      }
+    });
   }
-  onKeydownEvent(form: NgForm) {
+  onKeydownEvent(event, form: NgForm) {
     const self = this;
-    if (form.value.amount > (Number(self.offer.amount) - Number(self.offer.fee))) {
+    const amount = form.value.amount;
+    const maxAmountCanTake = Number(self.offer.amount) - Number(self.offer.fee);
+
+    if (amount > maxAmountCanTake) {
       self.validAmount = false;
       self.getAmount = 'Invalid amount';
     } else {

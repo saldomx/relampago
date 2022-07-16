@@ -35,28 +35,28 @@ export class PhoneVerificationPage {
     if (typeof userInfo === 'string') {
       userInfo = JSON.parse(userInfo);
     }
-    self.utilityService.presentLoading();
-    try {
-      const bodyObj = {
-        email: userInfo.email,
-        phone: userInfo.phone,
-        code: self.code,
-      };
-      const payload = {
-        body: bodyObj,
-        url: `${environment.HOST}/api/login/confirmPhone`,
-      };
-      // const response = await self.restService.post(payload);
-      self.utilityService.dismissLoading();
-      self.utilityService.presentToast(
-        'Phone verified successfully, please login'
-      );
-      self.route.navigateByUrl('login');
-    } catch (err) {
-      setTimeout(() => {
-        self.utilityService.presentToast(JSON.stringify(err));
-        self.utilityService.dismissLoading();
-      });
-    }
+    // await self.utilityService.presentLoading();
+    // try {
+    //   const bodyObj = {
+    //     email: userInfo.email,
+    //     phone: userInfo.phone,
+    //     code: self.code,
+    //   };
+    //   const payload = {
+    //     body: bodyObj,
+    //     url: `${environment.HOST}/api/login/confirmPhone`,
+    //   };
+    //   // const response = await self.restService.post(payload);
+    //   await self.utilityService.dismissLoading();
+    //   self.utilityService.presentToast(
+    //     'Phone verified successfully, please login'
+    //   );
+    //   self.route.navigateByUrl('login');
+    // } catch (err) {
+    //   setTimeout(() => {
+    //     self.utilityService.presentToast(JSON.stringify(err));
+    //     await self.utilityService.dismissLoading();
+    //   });
+    // }
   }
 }

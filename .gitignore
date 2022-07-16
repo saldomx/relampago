@@ -30,3 +30,6 @@ npm-debug.log*
 /plugins
 /www
 gulpfile.js
+/*capacitor part*/
+android
+capacitor.config.ts

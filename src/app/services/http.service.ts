@@ -31,19 +31,28 @@ export class HttpService {
    * @returns
    * @memberof HttpService
    */
-  getHeader() {
-    return {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    };
+  async getHeaders() {
+    const token = await this.storage.get('auth');
+    if (token) {
+      return {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+    } else {
+      return {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+    }
   }
 
   async get(req: any): Promise<Observable<any>> {
     const self = this;
-    const token = await this.storage.get('auth');
+    const headers = await this.getHeaders();
     const url = req.url;
     const requestOptions = {
-      headers: new HttpHeaders({ ...self.getHeader(), ...{ 'Authorization': token ? `Bearer ${token}` : '' } }),
+      headers: new HttpHeaders(headers),
       params: req.params
     };
     return self.httpClient.get<any>(url, requestOptions)
@@ -52,24 +61,25 @@ export class HttpService {
 
   async post(req: any): Promise<Observable<any>> {
     const self = this;
-    const token = await self.storage.get('auth');
+    const headers = await this.getHeaders();
     const url = req.url;
     const body = JSON.stringify(req.body);
     const requestOptions = {
-      headers: new HttpHeaders({ ...self.getHeader(), ...{ 'Authorization': token ? `Bearer ${token}` : '' } }),
+      headers: new HttpHeaders(headers),
       params: req.params
     };
+
     return self.httpClient.post<any>(url, body, requestOptions)
       .pipe(catchError(self.errorHandler.bind(self)));
   }
 
   async put(req: any): Promise<Observable<any>> {
     const self = this;
-    const token = await self.storage.get('auth');
+    const headers = await this.getHeaders();
     const url = req.url;
     const body = JSON.stringify(req.body);
     const requestOptions = {
-      headers: new HttpHeaders({ ...self.getHeader(), ...{ 'Authorization': token ? `Bearer ${token}` : '' } }),
+      headers: new HttpHeaders(headers),
       params: req.params
     };
     return self.httpClient.put(url, body, requestOptions)
@@ -86,10 +96,6 @@ export class HttpService {
       this.cacheService.publishAuthData({ auth: false });
       this.route.navigateByUrl('login');
     }
-    const errorRespose = {
-      message: errorObj.error.error,
-      error: true
-    };
-    return errorRespose;
+    throw new Error(errorObj.error.error);
   }
 }

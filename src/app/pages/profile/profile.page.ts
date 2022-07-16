@@ -28,24 +28,27 @@ export class ProfilePage {
 
   async getUserInfo(event) {
     const self = this;
-    self.utilityService.presentLoading();
-    try {
-      (await self.restService.userInfo()).subscribe((response => {
+    await self.utilityService.presentLoading();
+    (await self.restService.userInfo()).subscribe({
+      next: (response) => {
         self.userDetail = response;
         self.isChecked = response.bio_enabled ? true : false;
         self.cdRef.detectChanges();
-        self.utilityService.dismissLoading();
+      },
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
+        self.utilityService.presentToast(err.error.error || JSON.stringify(err));
         if (event) {
           event.target.complete();
         }
-      }));
-    } catch (err) {
-      if (event) {
-        event.target.complete();
+      },
+      complete: async () => {
+        await self.utilityService.dismissLoading();
+        if (event) {
+          event.target.complete();
+        }
       }
-      self.utilityService.presentToast(err.error.error || JSON.stringify(err));
-      self.utilityService.dismissLoading();
-    }
+    });
   }
 
   async toggleChange(event) {
@@ -72,17 +75,19 @@ export class ProfilePage {
     const reqPayload = {
       bioValue: value
     };
-    self.utilityService.presentLoading();
-    try {
-      (await self.restService.bioUpdate(reqPayload)).subscribe((response => {
+    await self.utilityService.presentLoading();
+    (await self.restService.bioUpdate(reqPayload)).subscribe({
+      next: (response) => {
         self.utilityService.presentToast(response.message || JSON.stringify(response));
-        self.utilityService.dismissLoading();
-      }));
-    } catch (err) {
-      self.changeToggleState();
-      self.utilityService.presentToast(err.error.error || JSON.stringify(err));
-      self.utilityService.dismissLoading();
-    }
+      },
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
+        self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+      },
+      complete: async () => {
+        await self.utilityService.dismissLoading();
+      }
+    });
   }
 
   public async showFingerprintAuthDlg(checked) {
@@ -96,9 +101,16 @@ export class ProfilePage {
           fallbackButtonTitle: 'FB Back Button'
         }).then(async (showResult: any) => {
           (await self.restService.getPublicKey())
-            .subscribe(async (data) => {
-              self.storage.set('x-client-token', data.publicKey);
-              self.updateBioValue(checked);
+            .subscribe({
+              next: async (data) => {
+                await self.storage.set('x-client-token', data.publicKey);
+              },
+              error: async (err) => {
+                self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+              },
+              complete: async () => {
+                self.updateBioValue(checked);
+              }
             });
         }).catch((error: any) => {
           self.changeToggleState();
