@@ -34,7 +34,7 @@ export class HistoryPage implements OnInit {
       },
       error: async (err) => {
         await self.utilityService.dismissLoading();
-        self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+        self.utilityService.presentToast(err || JSON.stringify(err));
         if (event) {
           event.target.complete();
         }

@@ -92,7 +92,6 @@ export class HttpService {
     const statusCode = errorObj.status;
     if (statusCode === 401) {
       await this.storage.remove('auth');
-      this.utilityService.presentToast(JSON.stringify(errorObj.error.error));
       this.cacheService.publishAuthData({ auth: false });
       this.route.navigateByUrl('login');
     }

@@ -29,6 +29,33 @@ export class RestService {
     return self.http.post(reqPayload);
   }
 
+  verifyOtp(payload): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      body: payload,
+      url: `${environment.HOST}/phone/verify`
+    };
+    return self.http.post(reqPayload);
+  }
+
+  activateAccount(payload): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      body: payload,
+      url: `${environment.HOST}/account/activate`
+    };
+    return self.http.post(reqPayload);
+  }
+
+  resendOtp(payload): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      body: payload,
+      url: `${environment.HOST}/phone/otp/resend`
+    };
+    return self.http.post(reqPayload);
+  }
+
   takeOffer(offer): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {

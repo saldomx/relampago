@@ -37,7 +37,7 @@ export class ProfilePage {
       },
       error: async (err) => {
         await self.utilityService.dismissLoading();
-        self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+        self.utilityService.presentToast(err || JSON.stringify(err));
         if (event) {
           event.target.complete();
         }
@@ -82,7 +82,7 @@ export class ProfilePage {
       },
       error: async (err) => {
         await self.utilityService.dismissLoading();
-        self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+        self.utilityService.presentToast(err || JSON.stringify(err));
       },
       complete: async () => {
         await self.utilityService.dismissLoading();
@@ -106,7 +106,7 @@ export class ProfilePage {
                 await self.storage.set('x-client-token', data.publicKey);
               },
               error: async (err) => {
-                self.utilityService.presentToast(err.error.error || JSON.stringify(err));
+                self.utilityService.presentToast(err || JSON.stringify(err));
               },
               complete: async () => {
                 self.updateBioValue(checked);

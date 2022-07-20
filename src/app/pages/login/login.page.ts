@@ -35,7 +35,7 @@ export class LoginPage {
       },
       error: async (err) => {
         await self.utilityService.dismissLoading();
-        self.utilityService.presentToast(err.error.error || 'Invalid credential or not authorised user');
+        self.utilityService.presentToast(err || 'Invalid credential or not authorised user');
       },
       complete: async () => {
         await self.utilityService.dismissLoading();
@@ -77,7 +77,7 @@ export class LoginPage {
               },
               error: async (err) => {
                 await self.utilityService.dismissLoading();
-                self.utilityService.presentToast(err.error.error || 'Invalid credential or not authorised user');
+                self.utilityService.presentToast(err || 'Invalid credential or not authorised user');
               },
               complete: async () => {
                 await self.utilityService.dismissLoading();

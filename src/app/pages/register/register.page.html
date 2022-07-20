@@ -1,25 +1,24 @@
-<!-- <app-header></app-header>
+<app-header></app-header>
 <ion-content>
-  <div>
-    <ion-card>
-      <ion-card-header>
+  <div class="container" style="padding: 15px;">
         <ion-card-title>Registration</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
         <form #form="ngForm" (ngSubmit)="onSubmit(form)" novalidate>
           <mat-form-field style="width: 100%;">
             <mat-label>First Name</mat-label>
-            <input type="text" matInput name="nombre" ngModel required>
+            <input type="text" matInput name="firstName" ngModel required>
           </mat-form-field>
           <mat-form-field style="width: 100%;">
             <mat-label>Last Name</mat-label>
-            <input type="text" matInput name="app" ngModel required>
+            <input type="text" matInput name="lastName" ngModel required>
           </mat-form-field>
           <mat-form-field style="width: 100%;">
+            <mat-label>Nickname</mat-label>
+            <input type="text" matInput name="nickname" ngModel required>
+          </mat-form-field>
+          <!-- <mat-form-field style="width: 100%;">
             <mat-label>Email</mat-label>
             <input type="email" matInput name="email" ngModel required>
-          </mat-form-field>
+          </mat-form-field> -->
           <mat-form-field style="width: 100%;">
             <mat-select name="country" placeholder="Select country" ngModel required>
               <mat-option>--</mat-option>
@@ -35,17 +34,13 @@
           </mat-form-field>
           <mat-form-field style="width: 100%;">
             <mat-label>Pin</mat-label>
-            <input type="password" matInput name="nip" maxlength="4" ngModel required>
+            <input type="password"  matInput name="password" maxlength="4" ngModel required>
           </mat-form-field>
           <section style="text-align: center;">
-            <button [disabled]="!form.valid" class="resbtn" mat-raised-button>Register</button>
+            <button [disabled]="!form.valid || !(form.value.password?.length===4)" class="resbtn" mat-raised-button>Register</button>
           </section>
           <div id="login">
             <span>Already registered? <span id="l-link" (click)="goToLogin()">Login</span></span>
           </div>
-
         </form>
-      </ion-card-content>
-    </ion-card>
   </div>
-</ion-content> -->

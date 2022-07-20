@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { environment } from 'src/environments/environment';
+const countryCode = require('../../../assets/DIAL_CODES.json');
 
 declare const require: any;
 @Component({
@@ -14,6 +14,7 @@ declare const require: any;
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage {
+  public contryList = countryCode;
   constructor(private route: Router, private utilityService: UtilityService,
     private storage: StorageService, private restService: RestService) { }
 
@@ -27,31 +28,28 @@ export class RegisterPage {
 
   async onSubmit(form: NgForm) {
     const self = this;
-    // await self.utilityService.presentLoading();
-    // try {
-    // form.value.country = String(form.value.country.calling_code);
-    // const bodyObj = form.value;
-    // bodyObj.agent = null;
-    // bodyObj.fbid = null;
+    await self.utilityService.presentLoading();
+    const reqObj = Object.assign({ ...form.value });
 
-    // const payload = {
-    //   body: bodyObj,
-    //   url: `${environment.HOST}/api/login/ripplev4/SignUpMX`
-    // };
-    // const response = await self.restService.post(payload);
-    // await self.utilityService.dismissLoading();
-    // if (response.email === form.value.email) {
-    //   await this.storage.set('user', JSON.stringify(form.value));
-    //   self.utilityService.presentToast('Registration done successfully, please verify phone');
-    //   this.route.navigateByUrl('phone/verification');
-    // }
-    // } catch (err) {
-    //   setTimeout(() => {
-    //     self.utilityService.presentToast(err.msg || JSON.stringify(err.error));
-    //     await self.utilityService.dismissLoading();
-    //   });
-    // }
+    reqObj.country = String(form.value.country.country);
+    reqObj.phone = `+${form.value.country.calling_code}${form.value.phone}`;
+    (await self.restService.register(reqObj)).subscribe({
+      next: async (response) => {
+        reqObj.account=response.user.account;
+        await self.storage.set('user', JSON.stringify(reqObj));
+        self.utilityService.presentToast('Registration done successfully, please verify phone');
+      },
+      error: async (err) => {
+        await self.utilityService.dismissLoading();
+        self.utilityService.presentToast(err || 'Something went wrong, please try after sometime');
+      },
+      complete: async () => {
+        await self.utilityService.dismissLoading();
+        self.route.navigateByUrl('phone/verification');
+      }
+    });
   }
+
   goToLogin() {
     this.route.navigateByUrl('login');
   }
