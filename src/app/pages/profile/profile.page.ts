@@ -32,7 +32,7 @@ export class ProfilePage {
     (await self.restService.userInfo()).subscribe({
       next: (response) => {
         self.userDetail = response;
-        self.isChecked = response.bio_enabled ? true : false;
+        self.isChecked = response?.bio_enabled ? true : false;
         self.cdRef.detectChanges();
       },
       error: async (err) => {

@@ -10,6 +10,7 @@ import { ProfilePage } from './profile.page';
 import { NgMaretialModule } from 'src/app/ng-maretial/ng-maretial.module';
 import { HeaderModule } from 'src/app/component/header/header.module';
 import { FooterModule } from 'src/app/component/footer/footer.module';
+import { QrCodeModule } from 'ng-qrcode';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { FooterModule } from 'src/app/component/footer/footer.module';
     ProfilePageRoutingModule,
     NgMaretialModule,
     HeaderModule,
-    FooterModule
+    FooterModule,
+    QrCodeModule
   ],
   declarations: [ProfilePage]
 })

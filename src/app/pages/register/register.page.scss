@@ -1,24 +1,36 @@
-
-ion-card{
+ion-card {
   margin-bottom: 10px;
-  max-height: 90%;
-  display: flex;
-  flex-direction: column;
+  height: 85%;
 }
-ion-card-title{
+ion-card-title {
   font-size: 20px;
-  color: #052d5c;
+  color: #3056d3;
+  text-align: center;
+  position: relative;
+  top: 20px;
 }
 
-#login {
+.logo-c {
+  width: 120px;
+}
+#register {
   position: relative;
   margin-top: 10px;
   text-align: center;
   font-size: 10px;
   margin-bottom: 20px;
 }
-#l-link {
+#r-link {
   font-weight: 800;
   cursor: pointer;
   text-decoration: underline;
+}
+
+form {
+  width: 80%;
+}
+
+.fing {
+  font-size: 40px;
+  color: #3056d3;
 }

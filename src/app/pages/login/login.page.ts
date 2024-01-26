@@ -6,6 +6,8 @@ import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { ModalController } from '@ionic/angular';
+import { OtpOverlayComponent } from '../register/otp-overlay/otp-overlay.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -16,7 +18,8 @@ export class LoginPage {
     private storage: StorageService,
     private cacheService: CacheService,
     private faio: FingerprintAIO,
-    private cdRef: ChangeDetectorRef) { }
+    private cdRef: ChangeDetectorRef,
+    private modalCtrl: ModalController) { }
 
   async ionViewWillEnter() {
     const self = this;
@@ -31,17 +34,22 @@ export class LoginPage {
     await self.utilityService.presentLoading();
     (await self.restService.login(form.value)).subscribe({
       next: async (data) => {
-        await self.storage.set('auth', data.token);
+        if (data?.user?.openOtpModal){
+          self.utilityService.presentToast(data.user.error);
+          self.showOtpModal()
+        }else{
+          await self.storage.set('auth', data.token);
+          self.cacheService.setAuth(true);
+          self.cacheService.publishAuthData({ auth: true });
+          self.route.navigateByUrl('/home');
+        }
       },
       error: async (err) => {
         await self.utilityService.dismissLoading();
-        self.utilityService.presentToast(err.error.error || 'Invalid credential or not authorised user');
+        self.utilityService.presentToast(err || 'Invalid credential or not authorised user');
       },
       complete: async () => {
         await self.utilityService.dismissLoading();
-        self.cacheService.setAuth(true);
-        self.cacheService.publishAuthData({ auth: true });
-        self.route.navigateByUrl('/home');
       }
     });
   }
@@ -73,7 +81,11 @@ export class LoginPage {
           (await self.restService.biometricLogin(reqPayload))
             .subscribe({
               next: async (data) => {
-                await self.storage.set('auth', data.token);
+                if (data.openOtpModal){
+                  self.showOtpModal()
+                }else{
+                  await self.storage.set('auth', data.token);
+                }
               },
               error: async (err) => {
                 await self.utilityService.dismissLoading();
@@ -94,5 +106,17 @@ export class LoginPage {
       }).catch(err => {
         self.utilityService.presentToast(err.error || 'Biometric not available');
       });
+  }
+  async showOtpModal() {
+    const modal = await this.modalCtrl.create({
+      component: OtpOverlayComponent,
+      backdropDismiss: true,
+      cssClass: 'card-overlay',
+      swipeToClose: true,
+      showBackdrop: true,
+      keyboardClose: true,
+    });
+
+    return await modal.present();
   }
 }

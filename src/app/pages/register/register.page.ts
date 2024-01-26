@@ -2,10 +2,12 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { environment } from 'src/environments/environment';
+import { OtpOverlayComponent } from './otp-overlay/otp-overlay.component';
 
 declare const require: any;
 @Component({
@@ -15,7 +17,7 @@ declare const require: any;
 })
 export class RegisterPage {
   constructor(private route: Router, private utilityService: UtilityService,
-    private storage: StorageService, private restService: RestService) { }
+    private storage: StorageService, private restService: RestService, private modalCtrl: ModalController) { }
 
   async ionViewWillEnter() {
     const self = this;
@@ -27,32 +29,34 @@ export class RegisterPage {
 
   async onSubmit(form: NgForm) {
     const self = this;
-    // await self.utilityService.presentLoading();
-    // try {
-    // form.value.country = String(form.value.country.calling_code);
-    // const bodyObj = form.value;
-    // bodyObj.agent = null;
-    // bodyObj.fbid = null;
-
-    // const payload = {
-    //   body: bodyObj,
-    //   url: `${environment.HOST}/api/login/ripplev4/SignUpMX`
-    // };
-    // const response = await self.restService.post(payload);
-    // await self.utilityService.dismissLoading();
-    // if (response.email === form.value.email) {
-    //   await this.storage.set('user', JSON.stringify(form.value));
-    //   self.utilityService.presentToast('Registration done successfully, please verify phone');
-    //   this.route.navigateByUrl('phone/verification');
-    // }
-    // } catch (err) {
-    //   setTimeout(() => {
-    //     self.utilityService.presentToast(err.msg || JSON.stringify(err.error));
-    //     await self.utilityService.dismissLoading();
-    //   });
-    // }
+    await self.utilityService.presentLoading();
+    (await self.restService.register(form.value)).subscribe({
+      next: async (data) => {
+      },
+      error: async (err) => {
+        await self.utilityService.dismissLoading()
+        self.utilityService.presentToast(err || 'Something went wrong');
+      },
+      complete: async () => {
+        await self.utilityService.dismissLoading();
+        self.showOtpModal()
+      }
+    });
   }
   goToLogin() {
     this.route.navigateByUrl('login');
+  }
+
+  async showOtpModal() {
+    const modal = await this.modalCtrl.create({
+      component: OtpOverlayComponent,
+      backdropDismiss: true,
+      cssClass: 'card-overlay',
+      swipeToClose: true,
+      showBackdrop: true,
+      keyboardClose: true,
+    });
+
+    return await modal.present();
   }
 }

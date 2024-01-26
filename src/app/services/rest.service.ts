@@ -198,4 +198,12 @@ export class RestService {
     };
     return self.http.post(reqPayload);
   }
+  verifyPhone(payload): Promise<Observable<any>> {
+    const self = this;
+    const reqPayload = {
+      body: payload,
+      url: `${environment.HOST}/phone/verify`
+    };
+    return self.http.post(reqPayload);
+  }
 }

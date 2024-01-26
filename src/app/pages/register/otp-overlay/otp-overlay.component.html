@@ -1,0 +1,25 @@
+<app-header></app-header>
+<ion-content>
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div class="container">
+
+    <form #form="ngForm" (ngSubmit)="onSubmit()" novalidate>
+          <ion-card-title>Enter OTP</ion-card-title>
+          <div class="text-c">
+          </div>
+          <div id="input-box">
+            <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:5, inputClass:'otp-box',allowNumbersOnly: false,inputStyles: {
+            'width': '45px',
+            'height': '40px',
+            'font-weight': 700
+            },
+            isPasswordInput: false}"></ng-otp-input>
+            <div style="margin-top: 20px;">
+              <button class="v-btn" [disabled]="!(code.length===5)" mat-raised-button color="primary">Verify</button>
+            </div>
+          </div>
+        </form>
+  </div>
+</ion-content>

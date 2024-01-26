@@ -12,6 +12,13 @@
       <ion-label>Finger Print / Face ID</ion-label>
       <ion-toggle [checked]="isChecked" (ionChange)="toggleChange($event)"></ion-toggle>
     </div>
+<div class="">
+  <qr-code value="{{userDetail?.account}}" size="220" errorCorrectionLevel="M"
+  ></qr-code>
+</div>
+<div class="address">
+  <span>{{userDetail?.account}}</span>
+</div>
     <hr>
 
     <div class="basic">

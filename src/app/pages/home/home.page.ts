@@ -41,9 +41,7 @@ export class HomePage {
       },
       error: async (err) => {
         await self.utilityService.dismissLoading();
-        self.utilityService.presentToast(
-          err.error.error || JSON.stringify(err.error)
-        );
+        self.utilityService.presentToast(err);
         if (event) {
           event.target.complete();
         }
@@ -66,9 +64,7 @@ export class HomePage {
       },
       error: async (err) => {
         await self.utilityService.dismissLoading();
-        self.utilityService.presentToast(
-          err.error.error || JSON.stringify(err.error)
-        );
+        // self.utilityService.presentToast(err);
         if (event) {
           event.target.complete();
         }

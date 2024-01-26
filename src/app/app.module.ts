@@ -21,9 +21,11 @@ import { NewOfferOverlayComponent } from './pages/offers/new-offer-overlay/new-o
 import { TakeOfferOverlayComponent } from './pages/offers/take-offer-overlay/take-offer-overlay.component';
 import { StatusOverlayComponent } from './pages/home/status-overlay/status-overlay.component';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { OtpOverlayComponent } from './pages/register/otp-overlay/otp-overlay.component';
+import { NgOtpInputModule } from 'ng-otp-input';
 @NgModule({
   declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent, NewOfferOverlayComponent,
-    TakeOfferOverlayComponent, StatusOverlayComponent],
+    TakeOfferOverlayComponent, StatusOverlayComponent, OtpOverlayComponent],
   entryComponents: [],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
     HttpClientModule,
     FormsModule,
     IonicStorageModule.forRoot(),
+    NgOtpInputModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
