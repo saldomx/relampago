@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export const environment = {
   PRODUCTION: true,
-  HOST: 'https://smx.saldo.mx/api',
-  SALDO_HOST: 'https://smx.saldo.mx/api/solana',
+  HOST: 'https://beta.saldo.mx/api',
+  SALDO_HOST: 'https://beta.saldo.mx/api/solana',
   CLIENT_INFO: {
     NAME: 'saldoapp',
     CODE: 'SaldoApp.1!',
