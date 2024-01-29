@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { ZBar } from '@ionic-native/zbar/ngx';
 import { StorageService } from 'src/app/services/storage.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';

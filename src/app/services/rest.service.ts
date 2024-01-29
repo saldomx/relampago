@@ -142,7 +142,7 @@ export class RestService {
   fetchHistory(limit): Promise<Observable<any>> {
     const self = this;
     const reqPayload = {
-      url: `${environment.HOST}/smx/user/withdrawal/history`,
+      url: `${environment.HOST}/user/withdrawal/history`,
     };
     if (limit) {
       reqPayload.url = `${reqPayload.url}?limit=${limit}`;

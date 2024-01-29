@@ -36,9 +36,7 @@ export class WithdrawalOverlayComponent implements OnInit {
       next: () => { },
       error: async (err) => {
         await self.utilityService.dismissLoading();
-        self.utilityService.presentToast(
-          err.error.error || JSON.stringify(err.error)
-        );
+        self.utilityService.presentToast(err || 'soemthing when wrong, please try after sometime');
       },
       complete: async () => {
         await self.utilityService.dismissLoading();

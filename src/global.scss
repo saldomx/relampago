@@ -92,7 +92,8 @@
     width: 100% !important;
     height: 80% !important;
     top: 300px;
-    border-radius: 25px;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
   }
 }
 
@@ -101,8 +102,10 @@
   .modal-wrapper {
     position: absolute;
     width: 100% !important;
-    height: 75% !important;
-    border-radius: 25px;
+    height: 50% !important;
+
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
     bottom: 0;
   }
 }

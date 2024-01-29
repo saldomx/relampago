@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:android": "ionic cordova build android --prod --release",
+    "build:android": "export NODE_OPTIONS=--openssl-legacy-provider; ionic cordova build android --prod --release",
     "build:ios": "ionic cordova build ios --prod",
     "update:resource": "ionic cordova resources"
   },

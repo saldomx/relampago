@@ -12,24 +12,20 @@
     <button class="send-btn" mat-raised-button (click)="showWithdrawalModal()">Send USDC</button>
     <div class="txns">
       <span>Last transactions</span>
-      <ion-list>
-        <ion-item *ngFor="let item of withdrawalTransactions">
-          <ion-label *ngIf="item.status!=='taken'">
-            <p>Invoice Payment <span class="usd-a">{{item.amount_out}} USD</span></p>
-            <p style="margin-bottom: 2px">{{item.amount_in}} sats</p>
-          </ion-label>
-          <ion-label (click)="showStatusModal(item)" *ngIf="item.status==='taken'">
-            <p>Offer Taken <span class="usd-a">{{item.amount}} USD
-                <div class="alrt"
-                  *ngIf="(!item.taker_confirmed && !item.isOwner) || (!item.creator_confirmed && item.isOwner)">!</div>
-                <ion-icon name="checkmark-sharp" class="check"
-                  *ngIf="(item.taker_confirmed && !item.isOwner) || (item.creator_confirmed && item.isOwner)">
-                </ion-icon>
-              </span>
-            </p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+      <ion-grid>
+        <ion-row style="font-size: 12px; font-weight: 600;">
+          <ion-col>Kind</ion-col>
+          <ion-col>Asset(USDC)</ion-col>
+          <ion-col style="text-align: right;">status</ion-col>
+        </ion-row>
+        <ion-row style="font-size: 12px;" *ngFor="let item of withdrawalTransactions">
+          <ion-col>{{item.kind}}</ion-col>
+          <ion-col style="text-align: center;">{{item.amount}}</ion-col>
+          <ion-col style="text-align: right;">{{item.status}}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+    
       <h3 (click)="goToHistory()">see more...</h3>
     </div>
   </div>

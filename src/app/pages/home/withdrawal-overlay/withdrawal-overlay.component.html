@@ -1,16 +1,16 @@
 <div *ngIf="!showSuccess">
   <div class="close">
-    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+    <ion-icon name="close-circle-outline" style="color: black;" (click)="dismiss()"></ion-icon>
   </div>
   <div style="margin-top: 25px;">
     <form #form="ngForm">
       <ion-item>
-        <ion-textarea style="font-size: 12px;" rows="1" ngModel name="walletAddress"
+        <ion-textarea style="font-size: 12px; margin-top: 20px;" rows="1" ngModel name="walletAddress"
           placeholder="Enter user address here..."></ion-textarea>
       </ion-item>
       <!-- Input with placeholder -->
-      <ion-input type="number" value="0.00" class="amt" placeholder="Enter amount" name="usdAmount" ngModel required>
-      </ion-input>
+      <input class="amt-box" ngModel name="usdAmount"
+      placeholder="0.00" required>
       <div>
         <button class="c-btn" mat-raised-button (click)="clearInput(form)">Clear</button>
         <button type="submit" class="i-btn" [disabled]="false" mat-raised-button
