@@ -1,13 +1,16 @@
 <app-header></app-header>
 <ion-content>
   <div class="container">
-    <ion-card-title>Login</ion-card-title>
-    <div id="logo-c">
+    <ion-row>
+      <ion-card-title>Login</ion-card-title>
+    </ion-row>
+    <ion-row>
       <img src="assets/images/rayo_logo.png" class="logo-c" alt="saldo logo">
-    </div>
-    <div>
+    </ion-row>
+    <ion-row>
       <ion-icon class="fing" name="finger-print" (click)="showFingerprintAuthDlg()"></ion-icon>
-    </div>
+    </ion-row>
+    <ion-row>
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" novalidate>
       <mat-form-field style="width: 100%;">
         <mat-label>Phone</mat-label>
@@ -18,12 +21,13 @@
         <input type="password" matInput name="password" ngModel required>
       </mat-form-field>
 
-      <section class="btn-sec">
-        <button class="resbtn" [disabled]="!form.valid" mat-raised-button>Login</button>
+      <section>
+        <button class="login-btn" [disabled]="!form.valid" mat-raised-button>Login</button>
       </section>
       <div id="register">
         <span>Don't have an account? <span id="r-link" (click)="goToRegister()">Register now</span></span>
       </div>
     </form>
+    </ion-row>
   </div>
 </ion-content>

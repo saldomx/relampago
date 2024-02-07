@@ -23,9 +23,10 @@ import { StatusOverlayComponent } from './pages/home/status-overlay/status-overl
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { OtpOverlayComponent } from './pages/register/otp-overlay/otp-overlay.component';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { DetailOverlayComponent } from './pages/history/detail-overlay/detail-overlay.component';
 @NgModule({
   declarations: [AppComponent, InvoiceOverlayComponent, WithdrawalOverlayComponent, NewOfferOverlayComponent,
-    TakeOfferOverlayComponent, StatusOverlayComponent, OtpOverlayComponent],
+    TakeOfferOverlayComponent, StatusOverlayComponent, OtpOverlayComponent, DetailOverlayComponent],
   entryComponents: [],
   imports: [
     CommonModule,

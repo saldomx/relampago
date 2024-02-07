@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit {
 
   async logout() {
     const res = await this.storage.remove('auth');
+    this.isSessionActive = false
     this.cacheService.publishAuthData({ auth: false });
     this.route.navigateByUrl('login');
   }

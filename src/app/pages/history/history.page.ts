@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { StatusOverlayComponent } from '../home/status-overlay/status-overlay.component';
+import { DetailOverlayComponent } from './detail-overlay/detail-overlay.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-history',
@@ -10,8 +11,10 @@ import { StatusOverlayComponent } from '../home/status-overlay/status-overlay.co
   styleUrls: ['./history.page.scss'],
 })
 export class HistoryPage implements OnInit {
+  public filteredHistory = []
+  public moment: any = moment
 
-  public withdrawalTransactions = [];
+  public history = [];
   constructor(private utilityService: UtilityService, private restService: RestService,
     private modalCtrl: ModalController) { }
 
@@ -19,18 +22,19 @@ export class HistoryPage implements OnInit {
   }
   async ionViewWillEnter() {
     const self = this;
-    self.fetchWithdrawal(null);
+    self.fetchHistory(null);
   }
   refreshPage(event) {
-    this.fetchWithdrawal(event);
+    this.fetchHistory(event);
   }
 
-  async fetchWithdrawal(event) {
+  async fetchHistory(event) {
     const self = this;
     await self.utilityService.presentLoading();
     (await self.restService.fetchHistory(0)).subscribe({
       next: (response) => {
-        self.withdrawalTransactions = response.result;
+        self.history = response.result;
+        self.filteredHistory = response.result
       },
       error: async (err) => {
         await self.utilityService.dismissLoading();
@@ -48,17 +52,24 @@ export class HistoryPage implements OnInit {
     });
   }
 
-  async showStatusModal(item) {
+  async showDetailModal(item) {
     const modal = await this.modalCtrl.create({
-      component: StatusOverlayComponent,
+      component: DetailOverlayComponent,
       backdropDismiss: true,
-      cssClass: 'card-overlay',
+      cssClass: 'detail-overlay',
       swipeToClose: true,
       showBackdrop: true,
       keyboardClose: true,
-      componentProps: { offer: item }
+      componentProps: { transaction: item }
     });
 
     return await modal.present();
+  }
+  filterHistory(type){
+    const self = this;
+    if(!type){
+      return self.filteredHistory = self.history
+    }
+    self.filteredHistory = self.history.filter(item => item.kind === type )
   }
 }

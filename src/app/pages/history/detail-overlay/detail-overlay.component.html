@@ -1,0 +1,32 @@
+
+  <div class="close">
+    <ion-icon name="close-circle-outline" (click)="dismiss()"></ion-icon>
+  </div>
+  <div class="overlay-main">    
+    
+    <ion-item>
+      <ion-label>
+        <h2 style="text-align: center;">Amount: {{transaction.amount}}</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h4>from</h4>
+        <small>{{transaction.from}}</small>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4>to</h4>
+        <small>{{transaction.to}}</small>
+      </ion-label>
+    </ion-item>
+    
+    <ion-item>
+      <ion-row style="width: 100%;">
+        <ion-col>{{transaction.status}}</ion-col>
+        <ion-col> {{moment(transaction.completed_at).format('ll')}} </ion-col>
+      </ion-row>
+    </ion-item>
+  </div>

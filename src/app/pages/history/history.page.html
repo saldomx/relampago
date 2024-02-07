@@ -8,17 +8,76 @@
   <div class="title">
     <span>History</span>
   </div>
-  <ion-grid>
-    <ion-row style="font-size: 12px; font-weight: 600;">
-      <ion-col>Kind</ion-col>
-      <ion-col>Asset(USDC)</ion-col>
-      <ion-col style="text-align: right;">status</ion-col>
+  <!-- refresher end -->
+  <div class="detail">
+    <ion-row class="chip-row">
+      <ion-col >
+        <ion-chip [outline]="true" (click)="filterHistory('')">All</ion-chip>
+      </ion-col>
+      <ion-col>
+        <ion-chip [outline]="true" (click)="filterHistory('Withdraw')">Sent</ion-chip>
+      </ion-col>
+      <ion-col>
+        <ion-chip [outline]="true" (click)="filterHistory('Deposit')">Received</ion-chip>
+      </ion-col>
     </ion-row>
-    <ion-row style="font-size: 12px;" *ngFor="let item of withdrawalTransactions">
-      <ion-col>{{item.kind}}</ion-col>
-      <ion-col style="text-align: center;">{{item.amount}}</ion-col>
-      <ion-col style="text-align: right;">{{item.status}}</ion-col>
-    </ion-row>
-  </ion-grid>
+      <!-- Segment with secondary color -->
+  <!-- <ion-segment style="margin-top: 15px;" (ionChange)="segmentChanged($event)" color="secondary" [value]="selectedMode">
+    <ion-segment-button value="offers" [ngClass]="{'active': selectedMode==='offers'}">
+      <ion-label>Offers</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="myoffers" [ngClass]="{'active': selectedMode==='myoffers'}">
+      <ion-label>My Offers</ion-label>
+    </ion-segment-button>
+  </ion-segment> -->
+    <!-- <span class="amt">{{userBalance}}</span>
+    <span style="font-size: 14px;">in USD</span>
+    <button class="i-btn" mat-raised-button (click)="goToInvoice()">Pay Invoice</button>
+    <button class="send-btn" mat-raised-button (click)="showWithdrawalModal()">Send USDC</button> -->
+    <div *ngFor="let item of filteredHistory" style="width: 100%;">
+      <small class="t-time">{{moment(item.completed_at).format('ll')}}</small>
+      <ion-card>
+        <ion-card-content>
+          <ion-row (click) = "showDetailModal(item)">
+            <div>
+                  <!-- <small>{{moment().format('ll')}}</small> -->
+                  <img src="/assets/images/usdc-logo.png" height="40" alt="">
+                </div>
+                <div>
+                  <small class="sent">{{item.kind}}</small>
+                  <ion-icon  *ngIf="item.kind === 'Withdraw'" class="icon-status-r" name="remove-circle-outline"></ion-icon>
+                  <ion-icon *ngIf="item.kind === 'Deposit'" class="icon-status-g" name="add-circle-outline"></ion-icon>
+                <div>
+                <small class="addr">To: {{item.to.substring(0,4)}}...{{item.to.substring(item.to.length-4)}}</small>
+                </div>
+              </div>
+            <div class="txn-amount">
+              {{item.amount}} USDC 
+            </div>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div>
+    </div>
+    <!-- <div class="txns">
+      <span>Last transactions</span>
+      <ion-grid>
+        <ion-row style="font-size: 12px; font-weight: 600;">
+          <ion-col>Kind</ion-col>
+          <ion-col>Asset(USDC)</ion-col>
+          <ion-col style="text-align: right;">status</ion-col>
+        </ion-row>
+        <ion-row style="font-size: 12px;" *ngFor="let item of withdrawalTransactions">
+          <ion-col>{{item.kind}}</ion-col>
+          <ion-col style="text-align: center;">{{item.amount}}</ion-col>
+          <ion-col style="text-align: right;">{{item.status}}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+    
+      <h3 (click)="goToHistory()">see more...</h3>
+    </div> -->
+  </div>
 </ion-content>
 <app-footer></app-footer>

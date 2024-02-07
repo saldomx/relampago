@@ -29,9 +29,8 @@
 .container {
   min-height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
   flex-direction: column;
+  align-items: center;
 }
 
 .searchbar-input {
@@ -118,4 +117,13 @@
 }
 .qr {
   text-align: center !important;
+}
+
+.detail-overlay .modal-wrapper{
+    position: absolute;
+    width: 100% !important;
+    height: 55% !important;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+    bottom: 0;
 }

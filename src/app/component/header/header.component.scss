@@ -1,12 +1,13 @@
 #header {
   height: 75px;
-  background-color: #3056d3;
+  // background-color: #3056d3;
   width: 100%;
   padding: 12px;
 }
 
 img {
   width: 50px;
+  margin-left: 10px;
 }
 #chat-icon {
   float: right;
@@ -17,10 +18,27 @@ img {
   position: relative;
 }
 #logout {
-  float: right;
-  position: relative;
-  right: 8px;
-  top: 15px;
-  color: #fff;
-  font-size: 24px;
+  font-size: 25px;
+}
+#user{
+  font-size: 45px;
+  padding-bottom: 12px;
+  margin-left: 11px;
+}
+ion-header {
+  ion-toolbar {
+    // set background color
+    --background: #3056d3;
+    // set icon/text color
+    --color: #ffffff;
+    height: 100px;
+  }
+}
+main{
+  --background: #3056d3 !important;
+  background-color: #3056d3 !important;
+}
+
+.menu-content{
+  background-color: #3056d3
 }

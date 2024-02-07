@@ -23,9 +23,85 @@ p {
   height: 19px;
   margin-left: 2px;
 }
+
 .check {
   font-size: 21px;
   position: absolute;
   color: green;
   top: -2px;
+}
+
+#amount {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.options {
+  margin-top: 10px;
+}
+
+.options ion-col {
+  font-size: 40px;
+}
+
+.options small {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 3px;
+  position: absolute;
+}
+
+ion-chip {
+  font-size: 14px;
+  font-weight: bold;
+  color: #3056d3;
+}
+
+.txn-amount {
+  padding-top: 16px;
+  font-size: 12px;
+  font-weight: bold;
+  position: absolute;
+  right: 8px;
+}
+
+.icon-status-r {
+  font-size: 20px;
+  color: #c03535e0;
+  margin-left: 1px;
+  top: 14px;
+  position: absolute;
+}
+
+.icon-status-g {
+  color: #088c27;
+  font-size: 20px;
+  margin-left: 1px;
+  top: 14px;
+  position: absolute;
+
+
+}
+
+.sent {
+  position: relative;
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.addr {
+  margin-left: 10px;
+  font-weight: 700;
+}
+
+.chip-row {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.t-time{
+  margin-left: 15px;
+  position: relative;
+  top: 10px;
 }

@@ -1,7 +1,62 @@
 ion-content {
   --color: #2c2626cc;
 }
+#amount{
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.options{
+  margin-top: 10px;
+}
+.options ion-col{
+  font-size: 40px;
+}
+.options small{
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 3px;
+  position: absolute;
+}
 
+ion-chip{
+  font-size: 14px;
+  font-weight: bold;
+  color: #3056d3;
+}
+.txn-amount{
+  padding-top: 16px;
+  font-size: 12px;
+  font-weight: bold;
+  position: absolute;
+  right: 8px;
+}
+.icon-status-r{
+  font-size: 20px;
+  color: #c03535e0;
+  margin-left: 1px;
+  top: 14px;
+  position: absolute;
+}
+.icon-status-g{
+  color: #088c27;
+  font-size: 20px;
+  margin-left: 1px;
+  top: 14px;
+  position: absolute;
+
+
+}
+.sent{
+  position: relative;
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.addr{
+  margin-left: 10px;
+  font-weight: 700;
+}
 .head-title {
   font-size: 14px;
   position: absolute;
@@ -42,9 +97,6 @@ ion-item :hover {
 ion-item :active {
   background-color: #8080801f;
 }
-ion-icon {
-  color: #052d5c;
-}
 
 ion-refresher {
   z-index: 10;
@@ -67,7 +119,7 @@ ion-segment {
   flex-wrap: wrap;
   align-content: space-around;
   align-items: center;
-  top: 70px;
+  top: 30px;
   justify-content: flex-start;
   position: relative;
 }
@@ -125,4 +177,20 @@ p {
   // position: absolute;
   color: green;
   top: -2px;
+}
+
+.t-time{
+  margin-left: 15px;
+  position: relative;
+  top: 10px;
+}
+.history{
+  background-color: #80808069;
+  height: 32px;
+  padding: 3px;
+  border-radius: 18px;
+  width: 100px;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
